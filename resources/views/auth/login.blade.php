@@ -20,9 +20,11 @@
                                         <div class="col-md-12">
                                             <h3 class="text-center">Sign In</h3>
                                         </div>
+                                    </div>
+                                    <div class="form-group form-primary">
                                         <x-jet-validation-errors class="mb-4" />
                                         @if (session('status'))
-                                            <div class="form-group form-primary">
+                                            <div class="text-center">
                                                 {{ session('status') }}
                                             </div>
                                         @endif

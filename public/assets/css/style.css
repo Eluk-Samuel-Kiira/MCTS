@@ -6953,15 +6953,15 @@ body.menu-bottom #collapse-menu {
 .btn-primary:hover,
 .sweet-alert button.confirm:hover,
 .wizard>.actions a:hover {
-	background-color: #77aaff;
-	border-color: #77aaff;
+	background-color: #90e09b;
+	border-color: #90e09b;
 }
 
 .btn-primary:active,
 .sweet-alert button.confirm:active,
 .wizard>.actions a:active {
-	background-color: #0764ff !important;
-	border-color: #0764ff;
+	background-color: #450272 !important;
+	border-color: #450272;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #fff;
@@ -6973,7 +6973,7 @@ body.menu-bottom #collapse-menu {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #fff;
-	background-color: #77aaff;
+	background-color: #450272;
 }
 
 .btn-primary.disabled,

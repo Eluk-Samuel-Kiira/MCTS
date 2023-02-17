@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="col-lg-4 order-1 order-lg-2 maps" data-aos="zoom-out" data-aos-delay="300">
-          <img src="landings/assets/img/maps.png" class="img-fluid animated" alt="">
+          <img src="landings/assets/img/maps.png" class="img-fluid animated" alt="maps">
         </div>
       </div>
     </div>
