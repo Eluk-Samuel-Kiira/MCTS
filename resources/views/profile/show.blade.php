@@ -1,12 +1,33 @@
+@extends('dashboard.layout')
+@section('title','Dashboard | Profile')
+@section('content')
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div>
+    <div class="pcoded-inner-content"> 
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <div class="card-block">
+                <form method="POST" action="{{route('user.photo')}}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Upload Profile-Photo</label>
+                        <div class="col-sm-10">
+                            <img id="blahss" alt="" width="100" height="100" />
+                            <input class="form-control" id="image" type="file" name="image"
+                            onchange="document.getElementById('blahss').src = window.URL.createObjectURL(this.files[0])" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Current Profile-Photo</label>
+                        <div class="col-sm-10">
+                            <!-- Current Profile Photo -->
+                            <div class="mt-2" x-show="! photoPreview">
+                                <img src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900"></i> Save Photo</button>
+                </form>
+            </div>  
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
 
@@ -43,3 +64,4 @@
         </div>
     </div>
 </x-app-layout>
+@endsection

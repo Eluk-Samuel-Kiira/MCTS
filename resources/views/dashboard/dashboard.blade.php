@@ -1,3 +1,8 @@
+@if(auth()->user()->role==1 || auth()->user()->status==0)
+    <script>
+        window.location.href = "{{route('devices')}}";
+    </script>
+@endif
 @extends('dashboard.layout')
 @section('title','Dashboard | MCTS')
 @section('content')
@@ -169,7 +174,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <h6 class="f-w-700">@if($user->role == 2){{__('Normal User')}} @elseif($user->role == 1) {{__('Administrator')}} @else{{('No Role')}} @endif<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                    <h6 class="f-w-700">@if($user->role == 1){{__('Normal User')}} @elseif($user->role == 2) {{__('Administrator')}} @else{{('No Role')}} @endif<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
                                                 </td>
                                             </tr>
                                         @empty  

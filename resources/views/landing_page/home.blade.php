@@ -11,7 +11,7 @@
             <h1>Track your child's locations with <span>Miniature Child Tracking System (MCTS)</span> in REAL TIME</h1>
             <h2>Our team is dedicated to combatting child trafficking in Africa by implementing sustainable solutions.</h2>
             <div class="text-center text-lg-start">
-              <a href="#contact" class="btn-get-started scrollto">Get Started</a>
+              <a href="#order" class="btn-get-started scrollto">Get Started</a>
             </div>
           </div>
         </div>
@@ -404,7 +404,7 @@
     </section><!-- End Team Section -->
 
     <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
+    <section id="order" class="contact">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Contact</h2>
@@ -416,7 +416,7 @@
                         <div class="address">
                             <i class="bi bi-geo-alt"></i>
                             <h4>Location:</h4>
-                            <p>COCIS, MAKERERE UnIVERSITY, UGANDA</p>
+                            <p>COCIS, MAKERERE UNIVERSITY, UGANDA</p>
                         </div>
                         <div class="email">
                             <i class="bi bi-envelope"></i>

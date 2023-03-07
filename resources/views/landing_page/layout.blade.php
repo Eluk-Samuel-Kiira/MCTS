@@ -48,7 +48,7 @@
             <li><a class="nav-link scrollto" href="#features">Features</a></li>
             <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
             <li><a class="nav-link scrollto" href="#team">Team</a></li>
-            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+            <li><a class="nav-link scrollto" href="#order">Order</a></li>
             <li><a class="nav-link scrollto" href="{{route('login')}}">Login</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
@@ -100,7 +100,7 @@
 
     <div class="container">
       <div class="copyright">
-        Copyright &copy;{{ date('Y') }} <strong><span>CypherLink.io</span></strong>. All Rights Reserved
+        Copyright  &copy;2022-{{ date('Y') }} <strong><span>CypherLink.Inc</span></strong>. All Rights Reserved
       </div>
     </div>
   </footer><!-- End Footer -->

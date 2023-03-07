@@ -116,31 +116,33 @@
                         </div>
                         <div class="navbar-container container-fluid">
                             <ul class="nav-right">
-                                <li class="header-notification">
-                                    <a href="//" class="waves-effect waves-light">
-                                        <i class="ti-bell"></i>
-                                        <span class="badge bg-c-red"></span>
-                                    </a>
-                                    <ul class="show-notification">
-                                        <li>
-                                            <h6>Notifications</h6>
-                                            <label class="label label-danger">New</label>
-                                        </li>
-                                        <li class="waves-effect waves-light">
-                                            <div class="media">
-                                                <img class="d-flex align-self-center img-radius" src="{{asset('assets/images/avatar-2.jpg')}}" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h5 class="notification-user">John Doe</h5>
-                                                    <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                                    <span class="notification-time">30 minutes ago</span>
+                                @if( auth()->user()->role == 2)
+                                    <li class="header-notification">
+                                        <a href="//" class="waves-effect waves-light">
+                                            <i class="ti-bell"></i>
+                                            <span class="badge bg-c-red"></span>
+                                        </a>
+                                        <ul class="show-notification">
+                                            <li>
+                                                <h6>Notifications</h6>
+                                                <label class="label label-danger">New</label>
+                                            </li>
+                                            <li class="waves-effect waves-light">
+                                                <div class="media">
+                                                    <img class="d-flex align-self-center img-radius" src="{{asset('assets/images/avatar-2.jpg')}}" alt="Generic placeholder image">
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">John Doe</h5>
+                                                        <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
+                                                        <span class="notification-time">30 minutes ago</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
                                 <li class="user-profile header-notification">
                                     <a href="//" class="waves-effect waves-light">
-                                        <img src="{{asset('assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
+                                        <img src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" class="img-radius" height="40" alt="{{ auth()->user()->name }}">
                                         <span>{{ auth()->user()->name }}</span>
                                         <i class="ti-angle-down"></i>
                                     </a>
@@ -176,7 +178,7 @@
                             <div class="pcoded-inner-navbar main-menu">
                                 <div class="">
                                     <div class="main-menu-header">
-                                        <img class="img-80 img-radius" src="{{asset('assets/images/avatar-4.jpg')}}" alt="User-Profile-Image">
+                                        <img class="img-80 img-radius" src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" alt="{{ auth()->user()->name }}">
                                         <div class="user-details">
                                             <span id="more-details">{{ auth()->user()->name }}</span>
                                         </div>
@@ -201,46 +203,48 @@
                                         </a>
                                     </li>
                                     <li class="">
-                                        <a href="//" class="waves-effect waves-dark">
+                                        <a href="{{ route('devices') }}" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-settings"></i></span>
                                             <span class="pcoded-mtext">Devices</span>
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="pcoded-navigation-label">User Management</div>
-                                <ul class="pcoded-item pcoded-left-item">
-                                    <li class="pcoded-hasmenu">
-                                        <a href="//" class="waves-effect waves-dark">
-                                            <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-                                            <span class="pcoded-mtext">User Details</span>
-                                            <span class="pcoded-mcaret"></span>
-                                        </a>
-                                        <ul class="pcoded-submenu">
-                                            <li class=" ">
-                                                <a href="{{route('registered_users')}}" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext">Registered Users</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a href="button.html" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext">Button</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a href="typography.html" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext">Typography</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                @if( auth()->user()->role == 2)
+                                    <div class="pcoded-navigation-label">User Management</div>
+                                    <ul class="pcoded-item pcoded-left-item">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="//" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
+                                                <span class="pcoded-mtext">User Details</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <li class=" ">
+                                                    <a href="{{route('users.index')}}" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Registered Users</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="button.html" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Button</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="typography.html" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Typography</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                @endif
                                 <div class="pcoded-navigation-label">Reviews</div>
                                 <ul class="pcoded-item pcoded-left-item">
                                     <li class="">
@@ -261,7 +265,10 @@
                                     <div class="col-md-8">
                                         <div class="page-header-title">
                                             <h5 class="m-b-10">Dashboard</h5>
-                                            <p class="m-b-0">Welcome to Miniature Child Tracking System</p>
+                                            <a  href="{{ url()->previous() }}">
+                                                <i class="fa fa-arrow-circle-o-left text-white"></i>
+                                                <span class="text-white">Back</span>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

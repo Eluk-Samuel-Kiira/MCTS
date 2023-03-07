@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UserController;
 use App\Models\Visitor;
 use Carbon\Carbon;
 
@@ -47,5 +48,15 @@ Route::middleware([
         return view('dashboard.dashboard', compact('session_count','unique_vistors','user_count','registered_users'));
     })->name('dashboard');
 
-    Route::get('/registered/users', [StatisticsController::class, 'all_users'])->name('registered_users');;
+
+    //User Management
+    //Route::get('/registered/users', [StatisticsController::class, 'all_users'])->name('registered_users');
+    Route::resource('users',UserController::class);
+    Route::get('/activate/user/{id}', [StatisticsController::class, 'activate_user'])->name('users.activate');
+    Route::put('/profile-photo/user', [StatisticsController::class, 'user_photo'])->name('user.photo');
+
+    //Device(MCTS) Management
+    Route::get('/device/mcts/user', [StatisticsController::class, 'device_owner'])->name('devices');
+
+
 });
