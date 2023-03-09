@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\User;
 use File;
+use App\Models\Order;
 
 class StatisticsController extends Controller
 {
@@ -49,5 +50,33 @@ class StatisticsController extends Controller
     public function device_owner()
     {
         return view('dashboard.device');
+    }
+
+    //orders
+    public function device_order(Request $request)
+    {
+        $input = $request->all();
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'phone' => 'required|min:10',
+            'devices' => 'required',
+            'message' => 'required|max:400',
+        ]);
+
+        Order::create($input);
+        return redirect()->back()->with('status','Your Order has been Successfully Received, Wait to be contacted by the Administrators');;
+    }
+
+    public function device_orders()
+    {
+        $orders = Order::where('status',0)->get();
+        return view('users.orders',compact('orders'));
+    }
+
+    public function destroy_orders($id)
+    {
+        DB::table('orders')->where('id',$id)->delete();
+        return redirect()->back()->with('status', 'The Order Was Been Deleted Successfully');
     }
 }

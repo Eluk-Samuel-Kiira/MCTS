@@ -5,7 +5,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Models\Visitor;
 use Carbon\Carbon;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,16 +19,21 @@ use Carbon\Carbon;
 
 Route::get('/', function () {
     $visited_time = now()->format('H:i:s');
-        $visited_date = now()->format('Y-m-d');
-        $ip = \Request::getClientIp();
+    $visited_date = now()->format('Y-m-d');
+    $ip = \Request::getClientIp();
 
-        $increase = Visitor::where('ip', $ip)->value('visits');
-        $increase = $increase+1;
-        $vistor = Visitor::updateOrInsert(['ip' => $ip],[
-            'visits' => $increase, 'visited_time' => $visited_time, 'visited_date' => $visited_date
-        ]);
-    return view('landing_page.home');
+    $increase = Visitor::where('ip', $ip)->value('visits');
+    $increase = $increase+1;
+    $vistor = Visitor::updateOrInsert(['ip' => $ip],[
+        'visits' => $increase, 'visited_time' => $visited_time, 'visited_date' => $visited_date
+    ]);
+
+    // Team members
+    $team_members = User::where('role',2)->get();
+    return view('landing_page.home',compact('team_members'));
 });
+Route::post('/device/order', [StatisticsController::class, 'device_order'])->name('make.order');
+
 
 
 
@@ -57,6 +62,8 @@ Route::middleware([
 
     //Device(MCTS) Management
     Route::get('/device/mcts/user', [StatisticsController::class, 'device_owner'])->name('devices');
+    Route::get('/new/orders/user', [StatisticsController::class, 'device_orders'])->name('user.orders');
+    Route::delete('/delete/orders/{id}', [StatisticsController::class, 'destroy_orders'])->name('order.destroy');
 
 
 });

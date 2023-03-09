@@ -169,7 +169,7 @@
                                                         <img src="assets/images/avatar-4.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
                                                         <div class="d-inline-block">
                                                             <h6>{{ $user->name }}</h6>
-                                                            <p class="text-muted m-b-0">Sales executive , NY</p>
+                                                            <p class="text-muted m-b-0">{{ $user->location }}</p>
                                                         </div>
                                                     </div>
                                                 </td>

@@ -50,25 +50,27 @@
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5" data-aos="fade-left">
-            <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3>
-            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p>
+            <h3>Revolutionary Child Tracking System Developed by Makerere University Students</h3>
+            <p>
+              We're BSE23-10, Makerere University software engineering finalists. Our final year project is a discreet child tracking system(MCTS) that helps combat trafficking. Parents can monitor their child's location in real-time through a web interface, ensuring their safety. We're proud to share our innovative solution with the world.
+            </p>
 
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
               <div class="icon"><i class="bx bx-fingerprint"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+              <h4 class="title"><a href="">Geo-fencing</a></h4>
+              <p class="description">This system offers advanced geo-fencing capabilities, allowing parents to set boundaries and receive alerts for their child's safety.</p>
             </div>
 
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
               <div class="icon"><i class="bx bx-gift"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+              <h4 class="title"><a href="">Panic Alert</a></h4>
+              <p class="description">For added safety, our system includes a panic alert button that children can easily press in times of danger or attack.</p>
             </div>
 
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="300">
               <div class="icon"><i class="bx bx-atom"></i></div>
-              <h4 class="title"><a href="">Dine Pad</a></h4>
-              <p class="description">Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p>
+              <h4 class="title"><a href="">Real Time</a></h4>
+              <p class="description">The system features real-time tracking of a child's location, providing enhanced safety and peace of mind for parents.</p>
             </div>
 
           </div>
@@ -90,73 +92,73 @@
           <div class="col-lg-3 col-md-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="50">
               <i class="ri-store-line" style="color: #ffbb2c;"></i>
-              <h3><a href="">Lorem Ipsum</a></h3>
+              <h3><a href="//">Capture Coordinates</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
               <i class="ri-bar-chart-box-line" style="color: #8f04b9;"></i>
-              <h3><a href="">Dolor Sitema</a></h3>
+              <h3><a href="//">Panic Alert</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="150">
               <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
-              <h3><a href="">Sed perspiciatis</a></h3>
+              <h3><a href="//">GeoFencing</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
               <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
-              <h3><a href="">Magni Dolores</a></h3>
+              <h3><a href="//">Real Time</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="250">
               <i class="ri-database-2-line" style="color: #47aeff;"></i>
-              <h3><a href="">Nemo Enim</a></h3>
+              <h3><a href="//">Web Interface</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="300">
               <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
-              <h3><a href="">Eiusmod Tempor</a></h3>
+              <h3><a href="//">Notifications</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="350">
               <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
-              <h3><a href="">Midela Teren</a></h3>
+              <h3><a href="//">Google Maps</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="400">
               <i class="ri-price-tag-2-line" style="color: #6c0794;"></i>
-              <h3><a href="">Pira Neve</a></h3>
+              <h3><a href="//">SMS</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="450">
               <i class="ri-anchor-line" style="color: #b2904f;"></i>
-              <h3><a href="">Dirada Pack</a></h3>
+              <h3><a href="//">Wearable Device</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="500">
               <i class="ri-disc-line" style="color: #b20969;"></i>
-              <h3><a href="">Moton Ideal</a></h3>
+              <h3><a href="//">Email Support</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="550">
               <i class="ri-base-station-line" style="color: #ff5828;"></i>
-              <h3><a href="">Verdo Park</a></h3>
+              <h3><a href="//">Internet Connectivity</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box" data-aos="zoom-in" data-aos-delay="600">
               <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
-              <h3><a href="">Flavor Nivelanda</a></h3>
+              <h3><a href="//">Previous Movements</a></h3>
             </div>
           </div>
         </div>
@@ -245,7 +247,7 @@
     </section><!-- End Gallery Section -->
 
     <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials">
+    <!-- <section id="testimonials" class="testimonials">
       <div class="container">
 
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
@@ -262,7 +264,7 @@
                   <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item">
@@ -275,7 +277,7 @@
                   <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item">
@@ -288,7 +290,7 @@
                   <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item">
@@ -301,7 +303,7 @@
                   <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
             <div class="swiper-slide">
               <div class="testimonial-item">
@@ -314,14 +316,15 @@
                   <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
 
           </div>
           <div class="swiper-pagination"></div>
         </div>
 
       </div>
-    </section><!-- End Testimonials Section -->
+    </section> -->
+    <!-- End Testimonials Section -->
 
     <!-- ======= Team Section ======= -->
     <section id="team" class="team">
@@ -334,80 +337,38 @@
 
         <div class="row" data-aos="fade-left">
 
-          <div class="col-lg-3 col-md-6">
-            <div class="member" data-aos="zoom-in" data-aos-delay="100">
-              <div class="pic"><img src="landings/assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
+          @forelse($team_members as $admin)
+            <div class="col-lg-3 col-md-6">
+              <div class="member" data-aos="zoom-in" data-aos-delay="100">
+                <div class="pic"><img src="{{ asset('storage/profile_photo')}}/{{$admin->profile_photo_path }}" class="img-fluid" alt="photo"></div>
+                <div class="member-info">
+                  <h4>{{ $admin->name }}</h4>
+                  <span>Administrator</span>
+                  <div class="social">
+                    <a href="//"><i class="bi bi-twitter"></i></a>
+                    <a href="//"><i class="bi bi-facebook"></i></a>
+                    <a href="//"><i class="bi bi-instagram"></i></a>
+                    <a href="//"><i class="bi bi-linkedin"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-            <div class="member" data-aos="zoom-in" data-aos-delay="200">
-              <div class="pic"><img src="landings/assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+            @empty
+              <div class="alert alert-Danger">
+                  {{ __('No Admin Available') }}
               </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="member" data-aos="zoom-in" data-aos-delay="300">
-              <div class="pic"><img src="landings/assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="member" data-aos="zoom-in" data-aos-delay="400">
-              <div class="pic"><img src="landings/assets/img/team/team-4.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
+            @endforelse 
 
         </div>
 
       </div>
     </section><!-- End Team Section -->
 
-    <!-- ======= Contact Section ======= -->
+    <!-- ======= Order Section ======= -->
     <section id="order" class="contact">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                <h2>Contact</h2>
+                <h2>Contact & Orders</h2>
                 <p>Get Started With Your Order</p>
             </div>
             <div class="row">
@@ -431,7 +392,22 @@
                     </div>
                 </div>
                 <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
-                    <form action="" method="post" role="form" class="php-email-form">
+                    <form method="POST" action="{{route('make.order')}}">
+                      @csrf
+                      @if(session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                      @endif
+                      @if ($errors->any())
+                          <div class="alert alert-danger">
+                              <ul>
+                                  @foreach ($errors->all() as $error)
+                                      <li>{{ $error }}</li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                      @endif
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -439,20 +415,24 @@
                             <div class="col-md-6 form-group mt-3 mt-md-0">
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
                             </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="number" name="phone" class="form-control" id="phone" placeholder="Your Contact(Phone)" required>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="number" class="form-control" name="devices" id="devices" placeholder="Number of devices" required>
+                            </div>
                         </div>
                         <div class="form-group mt-3">
-                            <input type="number" class="form-control" name="subject" id="subject" placeholder="Number of Devices" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <textarea class="form-control" name="message" rows="5" placeholder="Purpose for Aquistion" required></textarea>
-                        </div>
-                        <div class="text-center"><button type="submit">Send Message</button></div>
+                            <textarea class="form-control" name="message" id="message" rows="5" placeholder="Purpose for Aquistion" required></textarea>
+                        </div><br>
+                        <div class="text-center"><button class="btn btn-secondary" type="submit">Submit Order</button></div>
                     </form>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End Contact Section -->
+    </section><!-- End Order Section -->
 
   </main><!-- End #main -->
 
