@@ -79,4 +79,10 @@ class StatisticsController extends Controller
         DB::table('orders')->where('id',$id)->delete();
         return redirect()->back()->with('status', 'The Order Was Been Deleted Successfully');
     }
+
+    // leaflet.js 
+    public function my_location()
+    {
+        return view('leaflet_maps.mylocation');
+    }
 }

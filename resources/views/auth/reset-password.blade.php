@@ -1,36 +1,66 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+@extends('auth.layout')
+@section('title','Register | MCTS')
+@section('content')
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+<section class="login-block">
+    <!-- Container-fluid starts -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Authentication card start -->
 
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
+                    <form class="md-float-material form-material" method="POST" action="{{ route('password.update') }}">
+                        @csrf
+                        <div class="text-center">
+                            <img src="landings/assets/img/mctslogo.png" alt="logo" class="img-fluid">
+                        </div>
+                        <div class="auth-box card">
+                            <div class="card-block">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">Reset Password</h3>
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <x-jet-validation-errors class="mb-4" />
+                                    @if (session('status'))
+                                        <div class="text-center">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                                <div class="form-group form-primary">
+                                    <input type="email" name="email" id="email" class="form-control" value="{{old('email', $request->email)}}" required autofocus autocomplete="username">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Your Email Address</label>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="password" id="password" name="password" class="form-control" required autocomplete="new-password">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Password</label>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required autocomplete="new-password">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Confirm Password</label>
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Reset Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- end of form -->
             </div>
+            <!-- end of col-sm-12 -->
+        </div>
+        <!-- end of row -->
+    </div>
+    <!-- end of container-fluid -->
+</section>
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Reset Password') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+@endsection

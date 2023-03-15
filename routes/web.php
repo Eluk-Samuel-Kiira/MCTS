@@ -64,6 +64,7 @@ Route::middleware([
     Route::get('/device/mcts/user', [StatisticsController::class, 'device_owner'])->name('devices');
     Route::get('/new/orders/user', [StatisticsController::class, 'device_orders'])->name('user.orders');
     Route::delete('/delete/orders/{id}', [StatisticsController::class, 'destroy_orders'])->name('order.destroy');
+    Route::get('/this/my/location/user', [StatisticsController::class, 'my_location'])->name('my.location');
 
 
 });

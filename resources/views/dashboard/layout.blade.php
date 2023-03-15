@@ -30,6 +30,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery.mCustomScrollbar.css')}}">
         <!-- Style.css -->
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+        @yield('styles')
     </head>
 
     <body>
@@ -174,14 +175,10 @@
                 <div class="pcoded-main-container">
                     <div class="pcoded-wrapper">
                         <nav class="pcoded-navbar">
-                            <div class="sidebar_toggle"><a href="//"><i class="icon-close icons"></i></a></div>
                             <div class="pcoded-inner-navbar main-menu">
                                 <div class="">
                                     <div class="main-menu-header">
                                         <img class="img-80 img-radius" src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" alt="{{ auth()->user()->name }}">
-                                        <div class="user-details">
-                                            <span id="more-details">{{ auth()->user()->name }}</span>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="p-15 p-b-0">
@@ -206,6 +203,13 @@
                                         <a href="{{ route('devices') }}" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-settings"></i></span>
                                             <span class="pcoded-mtext">Devices</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ route('my.location') }}" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
+                                            <span class="pcoded-mtext">My Location</span>
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                     </li>
@@ -306,7 +310,7 @@
         <!-- menu js -->
         <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
         <script src="{{asset('assets/js/vertical/vertical-layout.min.js ')}}"></script>
-
         <script type="text/javascript" src="{{asset('assets/js/script.js')}} "></script>
+        @stack('scripts')
     </body>
 </html>
