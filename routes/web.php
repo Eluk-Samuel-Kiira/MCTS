@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DeviceController;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use App\Models\User;
@@ -47,10 +48,11 @@ Route::middleware([
         $session_count = DB::table('sessions')->count();
         $unique_vistors = Visitor::where('visited_date', '>=', Carbon::now()->subDays(2))->count();
         $user_count = DB::table('users')->count();
+        $user_orders = DB::table('orders')->count();
         //Active users
         $users_in_session = DB::table('sessions')->value('user_id');
         $registered_users = DB::table('users')->where('id',$users_in_session)->get();
-        return view('dashboard.dashboard', compact('session_count','unique_vistors','user_count','registered_users'));
+        return view('dashboard.dashboard', compact('session_count','unique_vistors','user_count','registered_users','user_orders'));
     })->name('dashboard');
 
 
@@ -61,9 +63,11 @@ Route::middleware([
     Route::put('/profile-photo/user', [StatisticsController::class, 'user_photo'])->name('user.photo');
 
     //Device(MCTS) Management
-    Route::get('/device/mcts/user', [StatisticsController::class, 'device_owner'])->name('devices');
+    Route::resource('devices',DeviceController::class);
     Route::get('/new/orders/user', [StatisticsController::class, 'device_orders'])->name('user.orders');
     Route::delete('/delete/orders/{id}', [StatisticsController::class, 'destroy_orders'])->name('order.destroy');
+
+    //Maps Management
     Route::get('/this/my/location/user', [StatisticsController::class, 'my_location'])->name('my.location');
 
 

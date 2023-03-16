@@ -1,6 +1,6 @@
-@if(auth()->user()->role==1 || auth()->user()->status==0)
+@if(auth()->user()->role==0 || auth()->user()->status==0)
 <script>
-    window.location.href = "{{route('devices')}}";
+    window.location.href = "{{route('devices.index')}}";
 </script>
 @endif
 @extends('dashboard.layout')

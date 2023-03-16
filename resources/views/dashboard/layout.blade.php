@@ -192,20 +192,15 @@
                                 </div>
                                 <div class="pcoded-navigation-label">Navigation</div>
                                 <ul class="pcoded-item pcoded-left-item">
-                                    <li class="active">
-                                        <a href="{{ route('dashboard') }}" class="waves-effect waves-dark">
-                                            <span class="pcoded-micon"><i class="ti-home"></i></span>
-                                            <span class="pcoded-mtext">Dashboard</span>
-                                            <span class="pcoded-mcaret"></span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="{{ route('devices') }}" class="waves-effect waves-dark">
-                                            <span class="pcoded-micon"><i class="ti-settings"></i></span>
-                                            <span class="pcoded-mtext">Devices</span>
-                                            <span class="pcoded-mcaret"></span>
-                                        </a>
-                                    </li>
+                                    @if( auth()->user()->role == 2)
+                                        <li class="active">
+                                            <a href="{{ route('dashboard') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i></span>
+                                                <span class="pcoded-mtext">Dashboard</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    @endif
                                     <li class="">
                                         <a href="{{ route('my.location') }}" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
@@ -214,6 +209,35 @@
                                         </a>
                                     </li>
                                 </ul>
+
+                                @if( auth()->user()->role != 0 )
+                                    <div class="pcoded-navigation-label">Device Management</div>
+                                    <ul class="pcoded-item pcoded-left-item">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="//" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-receipt"></i></span>
+                                                <span class="pcoded-mtext">Devices</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <li class=" ">
+                                                    <a href="{{route('devices.index')}}" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Registered Devices</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="typography.html" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Typography</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                @endif
                                 @if( auth()->user()->role == 2)
                                     <div class="pcoded-navigation-label">User Management</div>
                                     <ul class="pcoded-item pcoded-left-item">

@@ -1,14 +1,14 @@
 @extends('dashboard.permit')
 @extends('dashboard.layout')
-@section('title','Dashboard | Order')
+@section('title','Dashboard | Users')
 @section('content')
 
 <!-- Hover table card start -->
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
-            <h5>Orders Table</h5>
-            <span>Orders Received and Not Worked Upon yet</span>
+            <h5>Users Table</h5>
+            <span>These are users who can log in to the system</span>
             @if(session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -30,39 +30,46 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Image</th>
                             <th>Full Names</th>
                             <th>Email</th>
-                            <th>Contact</th>
-                            <th>Devices</th>
-                            <th>Purpose</th>
+                            <th>Location</th>
+                            <th>Role</th>
                             <th>Date Created</th>
                             <th>Status</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($orders as $order)
+                        @forelse($all_users as $user)
                             <tr>
-                                <th scope="row">{{ $order->id }}</th>
-                                <td>{{ $order->name }}</td>
-                                <td>{{ $order->email }}</td>
-                                <td>{{ $order->phone }}</td>
-                                <td>{{ $order->devices }}</td>
-                                <td>{{ $order->message }}</td>
-                                <td>{{ $order->created_at }}</td>
+                                <th scope="row">{{ $user->id }}</th>
+                                <td><img src="{{ asset('storage/profile_photo')}}/{{$user->profile_photo_path }}" style="max-width: 70px" alt="avatar" /></td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->location }}</td>
+                                <td>@if($user->role == 1){{__('Normal User')}} @elseif($user->role == 2) {{__('Administrator')}} @else{{('No Role')}} @endif</td>
+                                <td>{{ $user->created_at }}</td>
                                 <td>
-                                    @if($order->status == 1) 
-                                        <a class="btn waves-effect waves-light btn-success" href="//">
-                                            Serviced
+                                    @if($user->status == 1) 
+                                        <a class="btn waves-effect waves-light btn-success" href="{{ route('users.activate', $user->id) }}">
+                                            Enabled
                                         </a>
                                     @else
-                                        <a class="btn waves-effect waves-light btn-disabled" href="//">
-                                            Not Serviced
+                                        <a class="btn waves-effect waves-light btn-disabled" href="{{ route('users.activate', $user->id) }}">
+                                            Disabled
                                         </a>
                                     @endif
                                 </td>
                                 <td>
-                                    <form method="POST" action="{{ route('order.destroy', $order->id) }}">
+                                    <a class="btn waves-effect waves-light btn-info" href="{{ route('users.edit', $user->id) }}">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Are you sure?')" class="btn waves-effect waves-light btn-danger">
@@ -73,7 +80,7 @@
                             </tr>
                         @empty
                             <div class="alert alert-Danger">
-                                {{ __('No Orders Available') }}
+                                {{ __('No User Available') }}
                             </div>
                         @endforelse  
                     </tbody>

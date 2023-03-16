@@ -1,3 +1,4 @@
+@extends('dashboard.permit')
 @extends('dashboard.layout')
 @section('title','Dashboard | Edit User')
 @section('content')

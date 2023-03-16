@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $all_users = DB::table('users')->get();
-        return view('dashboard.users',compact('all_users'));
+        return view('users.users',compact('all_users'));
     }
 
     /**
