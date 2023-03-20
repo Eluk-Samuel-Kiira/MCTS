@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\Device;
+use App\Models\User;
 
 class DeviceController extends Controller
 {
@@ -15,7 +16,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('devices.index');
+        $all_devices = Device::with('devices')->get();
+        return view('devices.index',compact('all_devices'));
     }
 
     /**
@@ -25,7 +27,8 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        return view('devices.create');
+        $users = User::where('role',1)->get();
+        return view('devices.create',compact('users'));
     }
 
     /**
@@ -36,7 +39,11 @@ class DeviceController extends Controller
      */
     public function store(StoreDeviceRequest $request)
     {
-        //
+        $deviceTable = new Device();
+        $deviceTable->name = $request->device_name;
+        $deviceTable->user = $request->device_user;
+        $deviceTable->save();
+        return redirect()->route('device.index')->with('status','New Device Registered Successfully');
     }
 
     /**
@@ -58,7 +65,8 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        //
+        $users = User::where('role',1)->get();
+        return view('devices.edit',compact('device','users'));
     }
 
     /**
@@ -70,7 +78,10 @@ class DeviceController extends Controller
      */
     public function update(UpdateDeviceRequest $request, Device $device)
     {
-        //
+        $device->update($request->validated());
+        $device->name = $request->input('name');
+        $device->user = $request->input('user');
+        return redirect()->route('device.index')->with('status', 'The Device\'s Details Has Been Updated Successfully');
     }
 
     /**
@@ -81,6 +92,7 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        //
+        $device->delete();
+        return redirect()->back()->with('status', 'The Device Has Been Deleted Successfully');
     }
 }

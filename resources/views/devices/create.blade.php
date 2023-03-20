@@ -10,17 +10,28 @@
             <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
         </div>
         <div class="card-block">
-            <form class="form-material">
+            <form method="POST"  action="{{ route('device.store') }}" class="form-material">
+                @csrf   
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="form-group form-default">
-                    <input type="text" name="name" class="form-control">
+                    <input type="text" name="device_name" class="form-control" required>
                     <span class="form-bar"></span>
                     <label class="float-label">Device Name</label>
                 </div>
                 <div class="form-group form-default">
-                    <select name="role" class="form-control" required>
-                        <option value="0"></option>
-                        <option value="1">Normal User</option>
-                        <option value="2">Administrator</option>
+                    <select name="device_user" class="form-control" required>
+                        <option value=""></option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
                     </select>
                     <span class="form-bar"></span>
                     <label class="float-label">Parent/Next of Kin</label>

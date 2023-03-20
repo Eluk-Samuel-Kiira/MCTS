@@ -13,7 +13,7 @@ class StoreDeviceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'device_name' => 'required',
+            'device_user' => 'required'
         ];
     }
 }

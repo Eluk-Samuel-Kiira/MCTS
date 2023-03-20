@@ -60,4 +60,10 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    //1 user can have many devices
+    public function userDevice(): HasMany
+    {
+        return $this->hasMany(Device::class);
+    }
 }

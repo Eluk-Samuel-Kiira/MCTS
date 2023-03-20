@@ -264,6 +264,6 @@
     @endsection
 @else
     <script>
-        window.location.href = "{{route('devices.index')}}";
+        window.location.href = "{{route('device.index')}}";
     </script>
 @endif

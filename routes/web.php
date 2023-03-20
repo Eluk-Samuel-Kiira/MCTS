@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\MapsController;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use App\Models\User;
@@ -63,9 +64,10 @@ Route::middleware([
     Route::put('/profile-photo/user', [StatisticsController::class, 'user_photo'])->name('user.photo');
 
     //Device(MCTS) Management
-    Route::resource('devices',DeviceController::class);
+    Route::resource('device',DeviceController::class);
     Route::get('/new/orders/user', [StatisticsController::class, 'device_orders'])->name('user.orders');
     Route::delete('/delete/orders/{id}', [StatisticsController::class, 'destroy_orders'])->name('order.destroy');
+    Route::get('/activate/device/{id}', [MapsController::class, 'activate_device'])->name('device.active');
 
     //Maps Management
     Route::get('/this/my/location/user', [StatisticsController::class, 'my_location'])->name('my.location');
