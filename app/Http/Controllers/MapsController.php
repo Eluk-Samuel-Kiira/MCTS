@@ -18,4 +18,11 @@ class MapsController extends Controller
             return redirect()->back()->with('status', 'The Device Has Been Activated Successfully');
         }
     }
+
+    public function trip_history($id)
+    {
+        //data to be retrieved from text file as devt proceeds
+        $deviceHistory = Device::find($id);
+        return view('devices.history',compact('deviceHistory'));
+    }
 }

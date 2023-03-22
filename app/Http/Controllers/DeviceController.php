@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\Device;
+use App\Models\Location;
 use App\Models\User;
+use Carbon\Carbon;
 
 class DeviceController extends Controller
 {
@@ -54,7 +56,12 @@ class DeviceController extends Controller
      */
     public function show(Device $device)
     {
-        //
+        $id = $device->id;
+        $mytime = Carbon::now();
+        $timeNow = $mytime->toDateTimeString();
+        $currentCoordinate = Location::with('coordinates')->where('device_id', $id)->get();
+        //dd($currentCoordinate);
+        return view('devices.show',compact('device','timeNow','currentCoordinate'));
     }
 
     /**

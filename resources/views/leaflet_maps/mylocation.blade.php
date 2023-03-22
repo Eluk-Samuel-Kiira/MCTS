@@ -1,6 +1,6 @@
 @if(auth()->user()->role==0 || auth()->user()->status==0)
 <script>
-    window.location.href = "{{route('devices.index')}}";
+    window.location.href = "{{route('device.index')}}";
 </script>
 @endif
 @extends('dashboard.layout')
@@ -58,19 +58,25 @@ crossorigin=""></script>
 <script>
     'use strict';
     $(document).ready(function() {
+
+        //Variables from Stevebauman location package
+        var latitude = @json($currentUserInfo->latitude);
+        var longitude = @json($currentUserInfo->longitude);
+        // console.log(latitude);
+        // console.log(longitude);
         
         //Map view
         var map;
         map = L.map('map');
-        map.setView([0.339730, 32.562191], 13);
+        map.setView([latitude, longitude], 13);
 
         //Street view
         var map2;
         map2 = L.map('map2');
-        map2.setView([0.339730, 32.562191], 12);
+        map2.setView([latitude, longitude], 13);
 
-        navigator.geolocation.watchPosition(success, error);
-        let marker, circle;
+        navigator.geolocation.watchPosition(success, error, {enableHighAccuracy:true});
+        let marker, circle, mark;
         function success(pos)
         {
             const lat = pos.coords.latitude;
@@ -78,19 +84,22 @@ crossorigin=""></script>
             const accuracy = pos.coords.accuracy;
 
             marker = L.marker([lat, lng]).addTo(map);
-            marker = L.marker([lat, lng]).addTo(map2);
+            mark = L.marker([lat, lng]).addTo(map2);
             //circle = L.circle([lat, lng], {radius:accuracy}).addTo(map);
 
-            marker.on('click', onMapClick);
+            marker.on('click', mapView);
             var popup = L.popup();
 
-            function onMapClick(e) {
+            function mapView(e) {
                 popup
                     .setLatLng(e.latlng)
                     .setContent("You current location is " + e.latlng.toString())
                     .openOn(map);
             }
-            function onMapClick(e) {
+
+            mark.on('click', streetView);
+            var popup = L.popup();
+            function streetView(e) {
                 popup
                     .setLatLng(e.latlng)
                     .setContent("You current location is " + e.latlng.toString())

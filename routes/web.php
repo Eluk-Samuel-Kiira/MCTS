@@ -5,6 +5,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\MapsController;
+use App\Http\Controllers\LocationController;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use App\Models\User;
@@ -71,6 +72,8 @@ Route::middleware([
 
     //Maps Management
     Route::get('/this/my/location/user', [StatisticsController::class, 'my_location'])->name('my.location');
+    Route::get('/trip/history/{id}', [MapsController::class, 'trip_history'])->name('trip.history');
+    Route::resource('locations',LocationController::class);
 
 
 });

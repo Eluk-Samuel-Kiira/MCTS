@@ -7,6 +7,7 @@ use DB;
 use App\Models\User;
 use File;
 use App\Models\Order;
+use Stevebauman\Location\Facades\Location;
 
 class StatisticsController extends Controller
 {
@@ -83,6 +84,10 @@ class StatisticsController extends Controller
     // leaflet.js 
     public function my_location()
     {
-        return view('leaflet_maps.mylocation');
+        //$ip = \Request::getClientIp(); //for dynamic $ips
+        $ip = "102.134.149.114";
+        $currentUserInfo = Location::get($ip);
+        //dd($currentUserInfo);
+        return view('leaflet_maps.mylocation',compact('currentUserInfo'));
     }
 }
