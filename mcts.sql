@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 15, 2023 at 09:55 AM
+-- Generation Time: Mar 24, 2023 at 07:09 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `devices`
+--
+
+CREATE TABLE `devices` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` smallint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `devices`
+--
+
+INSERT INTO `devices` (`id`, `name`, `user`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'dev-945g', '12', 1, '2023-03-20 13:27:15', '2023-03-20 13:48:14'),
+(3, 'dev-034ty', '3', 0, '2023-03-20 14:11:36', '2023-03-20 14:24:58'),
+(5, 'dev-747jh', '12', 0, '2023-03-20 14:29:58', '2023-03-20 14:29:58');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -36,6 +60,52 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `geo_fences`
+--
+
+CREATE TABLE `geo_fences` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `device_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`coordinates`)),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `geo_fences`
+--
+
+INSERT INTO `geo_fences` (`id`, `device_id`, `coordinates`, `created_at`, `updated_at`) VALUES
+(1, '2', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Point\",\"coordinates\":[32.536362,0.39515]}}', '2023-03-24 15:04:26', '2023-03-24 15:04:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `device_id` int(50) DEFAULT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` smallint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`id`, `device_id`, `latitude`, `longitude`, `status`, `created_at`, `updated_at`) VALUES
+(1, 3, '0.339730', '32.562190', 0, '2023-03-21 15:37:29', '2023-03-21 15:37:29'),
+(2, 5, '0.339730', '32.562190', 0, '2023-03-21 15:39:19', '2023-03-21 15:39:19'),
+(3, 2, '0.3802', '32.5571', 0, '2023-03-24 09:11:55', '2023-03-24 09:11:55');
 
 -- --------------------------------------------------------
 
@@ -61,7 +131,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2023_02_14_085054_create_sessions_table', 1),
 (8, '2023_02_16_200154_create_visitors_table', 2),
-(9, '2023_03_09_143124_create_orders_table', 3);
+(9, '2023_03_09_143124_create_orders_table', 3),
+(10, '2023_03_16_150130_create_devices_table', 4),
+(11, '2023_03_21_094613_create_locations_table', 5),
+(12, '2023_03_24_165408_create_geo_fences_table', 6);
 
 -- --------------------------------------------------------
 
@@ -147,7 +220,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('yOcWKy2d1F1zxkYhIi4s8UPptDuNizXv2d2z7TzL', 1, '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoieGtubnBDbkUzZUpHNGZoRDVkTnJ6NDVtOVZ1UDV1OHVvb3dzbGZPdyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90aGlzL215L2xvY2F0aW9uL3VzZXIiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJDh5OWZid3dGT0pRSUhQL0lhbzVONS5hNmMySkx5RkFEVnUvSFppOU9nQ0dwL3VUMERQSzRxIjt9', 1678870192);
+('c8GDrhWZe4MIRoyxmGBVgIPcBEFhRFS82t7ODtBk', 12, '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiUlBoR0V3djNBbUtSb0ZySkxJeFlDUjM3TEc2ZnV1RkFCcGw0dUs2cCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kZXZpY2UiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxMjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRHS1pyT09USUY2cDBNSlouUXJIb29lSnpsZUNab1JvYXRyQUx0Wnkwc25xVTBvdldxamYyZSI7fQ==', 1679681193);
 
 -- --------------------------------------------------------
 
@@ -183,7 +256,8 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `status`, `location`, `email
 (2, 'kenneth Ogire', 2, 'ogirekenneth@gmail.com', 1, 'Soroti Town', NULL, '$2y$10$E0nJ/4LmK5bqnduyH5RPVu8M2/wBXbTc7kigpep7dKQ8ZSIRZkMFK', NULL, NULL, NULL, NULL, NULL, '1678368921.jpg', '2023-02-16 08:13:54', '2023-03-09 10:35:21'),
 (3, 'Okello Martin', 1, 'cypherlinkservices@gmail.com', 1, 'Chawente Apac', NULL, '$2y$10$4gXTeM20rRCCsatcOJK9COTcy/HalES4mbQ/QdsiCdvSGaidpjmxW', NULL, NULL, NULL, NULL, NULL, '1678177912.jpg', '2023-02-16 08:43:57', '2023-03-07 05:31:52'),
 (10, 'Elizabeth Nanyonga', 2, 'nanyongaelizabeth71@gmail.com', 1, 'Entebbe', NULL, '$2y$10$IlB5s0ngP0CE7pdVlqVze.9BJZR.lmgx.3GJyelOjm.ivzVshdWPy', NULL, NULL, NULL, NULL, NULL, '1678367352.jpg', '2023-03-09 06:34:47', '2023-03-09 10:09:12'),
-(11, 'Timothy C. Waniaye', 2, 'tcwaniaye@gmail.com', 1, 'Soroti Town', NULL, '$2y$10$DEVcnz5JQ6jk4/05.G1LU.K1KP8PfBL96CZLSbZ58RL/5540VbZ3K', NULL, NULL, NULL, NULL, NULL, '1678369068.jpg', '2023-03-09 06:37:49', '2023-03-09 10:37:49');
+(11, 'Timothy C. Waniaye', 2, 'tcwaniaye@gmail.com', 1, 'Soroti Town', NULL, '$2y$10$DEVcnz5JQ6jk4/05.G1LU.K1KP8PfBL96CZLSbZ58RL/5540VbZ3K', NULL, NULL, NULL, NULL, NULL, '1678369068.jpg', '2023-03-09 06:37:49', '2023-03-09 10:37:49'),
+(12, 'Ogwal Dan', 1, 's@w', 1, 'Nakawa', NULL, '$2y$10$GKZrOOTIF6p0MJZ.QrHooeJzleCZoRoatrALtZy0snqU0ovWqjf2e', NULL, NULL, NULL, NULL, NULL, '1679334191.jpg', '2023-03-15 08:49:23', '2023-03-20 14:43:11');
 
 -- --------------------------------------------------------
 
@@ -206,11 +280,18 @@ CREATE TABLE `visitors` (
 --
 
 INSERT INTO `visitors` (`id`, `ip`, `visited_date`, `visited_time`, `visits`, `created_at`, `updated_at`) VALUES
-(2, '127.0.0.1', '2023-03-15', '08:24:29', '190', NULL, NULL);
+(2, '127.0.0.1', '2023-03-24', '18:05:19', '219', '2023-03-24 15:05:19', '2023-03-24 15:05:19');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `devices`
+--
+ALTER TABLE `devices`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `devices_name_unique` (`name`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -218,6 +299,18 @@ INSERT INTO `visitors` (`id`, `ip`, `visited_date`, `visited_time`, `visits`, `c
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `geo_fences`
+--
+ALTER TABLE `geo_fences`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -272,16 +365,34 @@ ALTER TABLE `visitors`
 --
 
 --
+-- AUTO_INCREMENT for table `devices`
+--
+ALTER TABLE `devices`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `geo_fences`
+--
+ALTER TABLE `geo_fences`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -299,7 +410,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `visitors`
