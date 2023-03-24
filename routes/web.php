@@ -28,7 +28,8 @@ Route::get('/', function () {
     $increase = Visitor::where('ip', $ip)->value('visits');
     $increase = $increase+1;
     $vistor = Visitor::updateOrInsert(['ip' => $ip],[
-        'visits' => $increase, 'visited_time' => $visited_time, 'visited_date' => $visited_date
+        'visits' => $increase, 'visited_time' => $visited_time, 'visited_date' => $visited_date,
+        "created_at"=> Carbon::now(), "updated_at"=> now()
     ]);
 
     // Team members
@@ -74,6 +75,9 @@ Route::middleware([
     Route::get('/this/my/location/user', [StatisticsController::class, 'my_location'])->name('my.location');
     Route::get('/trip/history/{id}', [MapsController::class, 'trip_history'])->name('trip.history');
     Route::resource('locations',LocationController::class);
+    Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
+    //Route::get('/geojson', [MapsController::class, 'store'])->name('geojson.store');
+
 
 
 });

@@ -4,7 +4,7 @@
 <x-app-layout>
     <div class="pcoded-inner-content"> 
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <div class="card-block">
+            <div class="card-block d-flex justify-content-end">
                 <form method="POST" action="{{route('user.photo')}}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

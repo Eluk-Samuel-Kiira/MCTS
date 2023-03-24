@@ -1,7 +1,6 @@
 @extends('dashboard.layout')
 @section('title','Device | Location')
 @section('content')
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @if(auth()->user()->role == 1 && $device->status == 0)
     <div class="pcoded-inner-content">
@@ -22,10 +21,7 @@
             <div class="page-wrapper">
                 <a class="btn waves-effect waves-light btn-success" href="{{route('trip.history',$device->id)}}">
                     Device {{ $device->name}} Trip Histroy
-                </a> 
-                <a class="btn waves-effect waves-light btn-success" href="{{route('locations.store')}}">
-                    Device {{ $device->name}} Trip Histroy
-                </a> 
+                </a>
                 <!-- Page body start --> 
                 <div class="page-body">
                     <div class="row">
@@ -191,26 +187,31 @@ crossorigin=""></script>
             //console.log(layer.toGeoJSON);
             layer.bindPopup(JSON.stringify(layer.toGeoJSON()))
             var  feature = layer.toGeoJSON();
-            fetch('{{route('locations.store')}}', {
-                method: 'POST',
+            // console.log(JSON.stringify(feature))
+
+            //sets the default headers for all subsequent AJAX requests, including the CSRF token
+            $.ajaxSetup({
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                body: JSON.stringify(feature)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                // Handle success response
-                console.log('Success:', response);
-            })
-            .catch(error => {
-                // Handle error response
-                console.error('Error:', error);
             });
-            //console.log(JSON.stringify(feature))
+
+            $.ajax({
+                url: "{{ route('geojson.store') }}",
+                type: "POST",
+                data: {
+                    geojson: JSON.stringify(feature),
+                    device_id: currentCoordinate[0].coordinates.id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+
             drawnItems.addLayer(layer);
         });
 
@@ -218,7 +219,30 @@ crossorigin=""></script>
             var type = e.layerType;
             var layers = e.layers;
             layers.eachLayer(function(layer){
-                //console.log(layer);
+                console.log(layer.toGeoJSON())
+                var updatedGeoFence = layer.toGeoJSON();
+                //Lets edit the geofence
+                $.ajaxSetup({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('geojson.store') }}",
+                    type: "POST",
+                    data: {
+                        geojson: JSON.stringify(updatedGeoFence),
+                        device_id: currentCoordinate[0].coordinates.id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
             });
             
         });

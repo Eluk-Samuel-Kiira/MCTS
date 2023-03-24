@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use App\Models\GeoFence;
+use Carbon\Carbon;
 
 class MapsController extends Controller
 {
@@ -24,5 +26,23 @@ class MapsController extends Controller
         //data to be retrieved from text file as devt proceeds
         $deviceHistory = Device::find($id);
         return view('devices.history',compact('deviceHistory'));
+    }
+
+    public function storeGeofence(Request $request)
+    {
+        $geojson = $request->input('geojson');
+        $device_id = $request->input('device_id');
+
+        GeoFence::updateOrInsert(['device_id' => $device_id],[
+            'coordinates' => $geojson, "created_at"=> Carbon::now(), "updated_at"=> now()
+        ]);
+        // $place = new GeoFence();
+        // $place->device_id = $device_id;
+        // $place->coordinates = $geojson;
+        // $place->save();
+
+        return response()->json([
+            'message' => 'GeoJSON data received and stored in database successfully'
+        ]);
     }
 }

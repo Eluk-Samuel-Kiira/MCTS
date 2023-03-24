@@ -1,5 +1,5 @@
 @extends('auth.layout')
-@section('title','Login | MCTS')
+@section('title','Forget Password | MCTS')
 @section('content')
 
     <section class="login-block">
