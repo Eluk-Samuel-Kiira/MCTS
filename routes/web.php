@@ -37,6 +37,7 @@ Route::get('/', function () {
     return view('landing_page.home',compact('team_members'));
 });
 Route::post('/device/order', [StatisticsController::class, 'device_order'])->name('make.order');
+Route::get('/send-notification', [MapsController::class, 'sendNotification']);
 
 
 
@@ -76,7 +77,7 @@ Route::middleware([
     Route::get('/trip/history/{id}', [MapsController::class, 'trip_history'])->name('trip.history');
     Route::resource('locations',LocationController::class);
     Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
-    //Route::get('/geojson', [MapsController::class, 'store'])->name('geojson.store');
+    Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
 
 
 

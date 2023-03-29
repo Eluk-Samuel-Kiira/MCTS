@@ -44,6 +44,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Contact</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="contact" value="{{ $edit_user->contact }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Select Role</label>
                             <div class="col-sm-10">
                                 <select name="role" class="form-control" required>

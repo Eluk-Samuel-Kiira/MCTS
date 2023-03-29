@@ -33,6 +33,7 @@
                             <th>Image</th>
                             <th>Full Names</th>
                             <th>Email</th>
+                            <th>Contacts</th>
                             <th>Location</th>
                             <th>Role</th>
                             <th>Date Created</th>
@@ -48,6 +49,7 @@
                                 <td><img src="{{ asset('storage/profile_photo')}}/{{$user->profile_photo_path }}" style="max-width: 70px" alt="avatar" /></td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->contact }}</td>
                                 <td>{{ $user->location }}</td>
                                 <td>@if($user->role == 1){{__('Normal User')}} @elseif($user->role == 2) {{__('Administrator')}} @else{{('No Role')}} @endif</td>
                                 <td>{{ $user->created_at }}</td>

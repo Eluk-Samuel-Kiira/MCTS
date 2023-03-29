@@ -19,9 +19,6 @@
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
-                <a class="btn waves-effect waves-light btn-success" href="{{route('trip.history',$device->id)}}">
-                    Device {{ $device->name}} Trip Histroy
-                </a>
                 <!-- Page body start --> 
                 <div class="page-body">
                     <div class="row">
@@ -30,6 +27,10 @@
                             <div class="card" style="height: 520px">
                                 <div class="card-header">
                                     <h5>Current Location (Map View)</h5>
+                                    <button class="btn waves-effect waves-light btn-primary" onclick="myGeoFence()">View GeoFence</button>
+                                    <a class="btn waves-effect waves-light btn-success" href="{{route('trip.history',$device->id)}}">
+                                        {{ $device->name}} Trip Histroy
+                                    </a>
                                     <span>for {{ $device->name}} as of {{ $timeNow }}</span>
                                 </div>
                                 <div class="card-block">
@@ -74,10 +75,10 @@ crossorigin=""></script>
 <!-- leaflet draw Plugin -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+<!-- Turf.js Libraries -->
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
 <script>
-    'use strict';
-    $(document).ready(function() {
 
         var currentCoordinate = @json($currentCoordinate);
         var latitude = currentCoordinate[0].latitude;
@@ -106,7 +107,7 @@ crossorigin=""></script>
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map2);
 
-        //Marker for the user's current location - map view
+        //Marker for the user's current location - map view && street view
         var marker = L.marker([latitude, longitude]).addTo(map);
         var mark = L.marker([latitude, longitude]).addTo(map2);
 
@@ -162,21 +163,14 @@ crossorigin=""></script>
                         color: 'purple'
                     },
                 },
-                polyline: {
-                    shapeOptions: {
-                        color: 'red'
-                    },
-                },
+                polyline: false,
                 rectangle: {
                     shapeOptions: {
                         color: 'green'
                     },
                 },
-                circle: {
-                    shapeOptions: {
-                        color: 'steelblue'
-                    },
-                },
+                circle: false,
+                marker: false,
             }
         });
         map.addControl(drawControl);
@@ -213,6 +207,7 @@ crossorigin=""></script>
             });
 
             drawnItems.addLayer(layer);
+            document.location.reload();
         });
 
         map.on("draw:edited",function(e){
@@ -246,10 +241,66 @@ crossorigin=""></script>
             });
             
         });
-        
-    });
 
-    
+    function myGeoFence() 
+    {
+        //displaying the geofences within the map
+        if({!! json_encode($geofence) !!} !== null){
+            var myData = {!! $geofence !!}
+            L.geoJSON(myData).addTo(map);
+        }else{
+            alert("No geofence set")
+        }    
+    }    
+
+    var presentData = {!! json_encode($geofence) !!}
+    if(presentData !== null) {
+        var myType = {!! $geofence !!}
+        type = myType.geometry.type
+        // check if the point is within the polygon
+        coordinates = turf.point([longitude, latitude])
+        jsonData = {!!$geofence!!}
+        poly = jsonData.geometry.coordinates[0]
+        //console.log(poly)
+        polygon = turf.polygon([poly])
+        isInside = turf.booleanPointInPolygon(coordinates, polygon);
+        console.log(isInside)
+        if(!isInside)
+        {
+            console.log("Device Out of Designated Area")
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('geofence.alert') }}",
+                type: "POST",
+                data: {
+                    user_id: {{auth()->user()->id}},
+                    device_id: currentCoordinate[0].coordinates.id
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }else{
+            console.log("Device Still in Position")
+        }
+    }else{
+        console.log("No geofence set")
+    }
+
+
+    // setTimeout(() => {
+    //     document.location.reload();
+    // }, 3000);
+
+
 </script>
 
 @endpush

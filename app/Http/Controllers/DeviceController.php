@@ -8,6 +8,8 @@ use App\Models\Device;
 use App\Models\Location;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\GeoFence;
+
 
 class DeviceController extends Controller
 {
@@ -61,7 +63,10 @@ class DeviceController extends Controller
         $timeNow = $mytime->toDateTimeString();
         $currentCoordinate = Location::with('coordinates')->where('device_id', $id)->get();
         //dd($currentCoordinate);
-        return view('devices.show',compact('device','timeNow','currentCoordinate'));
+
+        //Geofences
+        $geofence = GeoFence::where('device_id',$id)->pluck('coordinates')->first();
+        return view('devices.show',compact('device','timeNow','currentCoordinate','geofence'));
     }
 
     /**

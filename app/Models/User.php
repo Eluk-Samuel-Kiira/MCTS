@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_photo_path',
+        'contact',
         
     ];
 
@@ -59,6 +60,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'contact',
     ];
 
     //1 user can have many devices

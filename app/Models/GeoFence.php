@@ -9,4 +9,9 @@ class GeoFence extends Model
 {
     use HasFactory;
     protected $fillable = ['device_id', 'coordinates'];
+
+    public function geofences()
+    {
+        return $this->belongsTo(Device::class, 'device_id');
+    }
 }

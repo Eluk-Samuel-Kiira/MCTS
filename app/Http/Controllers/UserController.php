@@ -77,6 +77,7 @@ class UserController extends Controller
         $users->name = $request->input('name');
         $users->email = $request->input('email');
         $users->location = $request->input('location');
+        $users->contact = $request->input('contact');
         $users->role = $request->input('role');
         $users->update();
         return redirect()->route('users.index')->with('status','User Updated Successfully');
