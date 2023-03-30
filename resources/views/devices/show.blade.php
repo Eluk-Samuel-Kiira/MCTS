@@ -253,53 +253,82 @@ crossorigin=""></script>
         }    
     }    
 
-    var presentData = {!! json_encode($geofence) !!}
-    if(presentData !== null) {
-        var myType = {!! $geofence !!}
-        type = myType.geometry.type
-        // check if the point is within the polygon
-        coordinates = turf.point([longitude, latitude])
-        jsonData = {!!$geofence!!}
-        poly = jsonData.geometry.coordinates[0]
-        //console.log(poly)
-        polygon = turf.polygon([poly])
-        isInside = turf.booleanPointInPolygon(coordinates, polygon);
-        console.log(isInside)
-        if(!isInside)
-        {
-            console.log("Device Out of Designated Area")
-            $.ajaxSetup({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    //setInterval(() => {
+        var presentData = {!! json_encode($geofence) !!}
+        if(presentData !== null) {
+            var myType = {!! $geofence !!}
+            type = myType.geometry.type
+            // check if the point is within the polygon
+            coordinates = turf.point([longitude, latitude])
+            jsonData = {!!$geofence!!}
+            poly = jsonData.geometry.coordinates[0]
+            //console.log(poly)
+            polygon = turf.polygon([poly])
+            isInside = turf.booleanPointInPolygon(coordinates, polygon);
+            console.log(isInside)
+            if(!isInside)
+            {
+                console.log("Device Out of Designated Area")
+                $.ajaxSetup({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                //Email notifications
+                $.ajax({
+                    url: "{{ route('geofence.alert') }}",
+                    type: "POST",
+                    data: {
+                        user_id: {{auth()->user()->id}},
+                        device_id: currentCoordinate[0].coordinates.id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
 
-            $.ajax({
-                url: "{{ route('geofence.alert') }}",
-                type: "POST",
-                data: {
-                    user_id: {{auth()->user()->id}},
-                    device_id: currentCoordinate[0].coordinates.id
-                },
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                }
-            });
+                // var url = "/send-sms?user=" + {{auth()->user()->id}} + "&device=" + currentCoordinate[0].coordinates.id;
+                // var request = new XMLHttpRequest();
+                // request.open('GET', url);
+                // request.onload = function() {
+                // if (request.status === 200) {
+                //     console.log("sent")
+                // } else {
+                //     console.log("failed")
+                // }
+                // };
+                // request.send();
+
+                $.ajaxSetup({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                //Email notifications
+                $.ajax({
+                    url: "{{ route('send.sms') }}",
+                    type: "POST",
+                    data: {
+                        user_id: {{auth()->user()->id}},
+                        device_id: currentCoordinate[0].coordinates.id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }else{
+                console.log("Device Still in Position")
+            }
         }else{
-            console.log("Device Still in Position")
+            console.log("No geofence set")
         }
-    }else{
-        console.log("No geofence set")
-    }
-
-
-    // setTimeout(() => {
-    //     document.location.reload();
-    // }, 3000);
-
+    //}, 5000);
 
 </script>
 

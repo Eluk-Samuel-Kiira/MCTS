@@ -46,6 +46,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Contact</label>
                             <div class="col-sm-10">
+                                <h4 class="sub-title">Format +256772651432 Please use this format to receice SMS</h4>
                                 <input type="text" class="form-control" name="contact" value="{{ $edit_user->contact }}" required>
                             </div>
                         </div>

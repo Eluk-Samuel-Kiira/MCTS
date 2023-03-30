@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.11",
         "stevebauman/location": "^6.6",
+        "twilio/sdk": "^7.0",
         "vonage/client": "^4.0"
     },
     "require-dev": {

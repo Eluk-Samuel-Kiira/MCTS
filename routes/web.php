@@ -37,7 +37,7 @@ Route::get('/', function () {
     return view('landing_page.home',compact('team_members'));
 });
 Route::post('/device/order', [StatisticsController::class, 'device_order'])->name('make.order');
-Route::get('/send-notification', [MapsController::class, 'sendNotification']);
+
 
 
 
@@ -78,7 +78,6 @@ Route::middleware([
     Route::resource('locations',LocationController::class);
     Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
     Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
-
-
-
+    Route::post('/send-sms', [MapsController::class, 'sendSMS'])->name('send.sms');
+    Route::get('/send-sms/twilio', [MapsController::class, 'twilioSMS'])->name('send.twilio');
 });
