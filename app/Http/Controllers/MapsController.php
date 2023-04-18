@@ -45,6 +45,17 @@ class MapsController extends Controller
         ]);
     }
 
+    public function destroyGeofence($id)
+    {
+        $geofence = GeoFence::where('device_id', $id)->first();
+        if ($geofence) {
+            $geofence->delete();
+            return response()->json(['message' => 'geofence deleted']);
+        } else {
+            return response()->json(['error' => 'geofence not found'], 404);
+        }
+    }
+
     public function sendNotification(Request $request)
     {
         $user_id = $request->input('user_id');
@@ -80,7 +91,6 @@ class MapsController extends Controller
         $username = User::where('id', $user_id)->pluck('name')->first();
         $device = Device::where('id', $device_id)->pluck('name')->first();
         
-
         $basic  = new \Vonage\Client\Credentials\Basic("383ddc75", "DfzWYCld95UpRBWp");
         $client = new \Vonage\Client($basic);
         //SMS notification
@@ -97,28 +107,5 @@ class MapsController extends Controller
                 'message' => 'The message failed'
             ]);
         }
-
-        return response()->json([
-            'message' => 'The message was '.$contact.' '.$username.' '.$device.' sent Successfully'
-        ]);
-
     }
-
-    public function twilioSMS()
-    {   
-        $basic  = new \Vonage\Client\Credentials\Basic("383ddc75", "DfzWYCld95UpRBWp");
-        $client = new \Vonage\Client($basic);
-
-        $response = $client->sms()->send(
-            new \Vonage\SMS\Message\SMS('+256754428612', 'MCTS', 'A text message sent using the Nexmo SMS API')
-        );
-        $message = $response->current();
-
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
-        } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
-        }
-    }
-
 }

@@ -26,12 +26,14 @@
                             <!-- Basic map start -->
                             <div class="card" style="height: 520px">
                                 <div class="card-header">
-                                    <h5>Current Location (Map View)</h5>
-                                    <button class="btn waves-effect waves-light btn-primary" onclick="myGeoFence()">View GeoFence</button>
-                                    <a class="btn waves-effect waves-light btn-success" href="{{route('trip.history',$device->id)}}">
-                                        {{ $device->name}} Trip Histroy
+                                    <h5>Current Location (Map View) for {{ $device->name}} as of {{ $timeNow }}</h5>
+                                    <button class="btn waves-effect waves-light btn-primary btn-sm" onclick="myGeoFence()">Geofence</button>
+                                    @if(($geofence) != null)
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm" onclick="deleteGeoFence()"><i class="fas fa-trash"></i></button>
+                                    @endif
+                                    <a class="btn waves-effect waves-light btn-success btn-sm" href="{{route('trip.history',$device->id)}}">
+                                        Trip Histroy
                                     </a>
-                                    <span>for {{ $device->name}} as of {{ $timeNow }}</span>
                                 </div>
                                 <div class="card-block">
                                     <div id="map" class="set-map"></div>
@@ -80,26 +82,22 @@ crossorigin=""></script>
 
 <script>
 
-        var currentCoordinate = @json($currentCoordinate);
-        var latitude = currentCoordinate[0].latitude;
-        var longitude = currentCoordinate[0].longitude;
-        //console.log(longitude);
-
-        //Map view
         var map;
         map = L.map('map');
-        map.setView([latitude, longitude], 13);
-
-        //For street view
         var map2;
         map2 = L.map('map2');
-        map2.setView([latitude, longitude], 13);
 
         //Map view continues
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+        //Google street markers
+        var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
+        googleStreets.addTo(map);
 
         //for street view
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -107,30 +105,7 @@ crossorigin=""></script>
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map2);
 
-        //Marker for the user's current location - map view && street view
-        var marker = L.marker([latitude, longitude]).addTo(map);
-        var mark = L.marker([latitude, longitude]).addTo(map2);
 
-        //Map view
-        marker.on('click', mapClick);
-        var pop = L.popup();
-
-        function mapClick(e) {
-            pop
-                .setLatLng(e.latlng)
-                .setContent("The current location of " +currentCoordinate[0].coordinates.name+ " is " + e.latlng.toString())
-                .openOn(map);
-        }
-
-        //Street view
-        mark.on('click', streetClick);
-        var popup = L.popup();
-        function streetClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent("The current location of " +currentCoordinate[0].coordinates.name+ " is " + e.latlng.toString())
-                .openOn(map2);
-        }
 
         //google street view
         var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
@@ -145,7 +120,118 @@ crossorigin=""></script>
             subdomains:['mt0','mt1','mt2','mt3']
         });
         googleSat.addTo(map2);
-        
+
+
+        // Define the marker outside of the $.getJSON callback function so we can update it later
+        var marker = L.marker([0, 0]).addTo(map);
+        var mark = L.marker([0, 0]).addTo(map2);
+
+        // Retrieve the updated coordinates from the DB every 5 second
+        setInterval(function() {
+            $.getJSON('/marker', function(data) {
+                var coordinates = data.currentCoordinate;    
+                var filteredCoordinates = coordinates.filter(obj => obj.device_id === {{$device->id}});
+                if (filteredCoordinates.length > 0) {
+                    latitude = filteredCoordinates[0].latitude;
+                    longitude = filteredCoordinates[0].longitude;
+                    // Update the marker's position
+                    marker.setLatLng([latitude, longitude]);
+                    mark.setLatLng([latitude, longitude]);
+                    // Update the map's view to center on the marker
+                    map.setView([latitude, longitude], 13);
+                    map2.setView([latitude, longitude], 13);
+                }
+                //Map view
+                marker.on('click', mapClick);
+                var pop = L.popup();
+
+                function mapClick(e) {
+                    pop
+                        .setLatLng(e.latlng)
+                        .setContent("The current location of " +filteredCoordinates[0].coordinates.name+ " is " + e.latlng.toString())
+                        .openOn(map);
+                }
+
+                //Street view
+                mark.on('click', streetClick);
+                var popup = L.popup();
+                function streetClick(e) {
+                    popup
+                        .setLatLng(e.latlng)
+                        .setContent("The current location of " +filteredCoordinates[0].coordinates.name+ " is " + e.latlng.toString())
+                        .openOn(map2);
+                }
+
+                var presentData = {!! json_encode($geofence) !!}
+                if(presentData !== null) {
+                    var myType = {!! $geofence !!}
+                    type = myType.geometry.type
+                    // check if the point is within the polygon using turf.js library
+                    coordinates = turf.point([longitude, latitude])
+                    jsonData = {!!$geofence!!}
+                    poly = jsonData.geometry.coordinates[0]
+                    //console.log(poly)
+                    polygon = turf.polygon([poly])
+                    isInside = turf.booleanPointInPolygon(coordinates, polygon);
+                    console.log(isInside)
+                    if(!isInside)
+                    {
+                        //delay notifications and SMS by 5 minutes to avoid overfloading email, every 5 seconds
+                        notifications(filteredCoordinates);
+                    }else{
+                        console.log("Device Still in Position")
+                    }
+                }else{
+                    console.log("No geofence set")
+                }
+            });
+        }, 500000)
+
+        function notifications(filteredCoordinates) {
+            console.log("Device Out of Designated Area")
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            //Email notifications
+            $.ajax({
+                url: "{{ route('geofence.alert') }}",
+                type: "POST",
+                data: {
+                    user_id: {{auth()->user()->id}},
+                    device_id: filteredCoordinates[0].coordinates.id
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            //SMS notifications ajax
+            $.ajax({
+                url: "{{ route('send.sms') }}",
+                type: "POST",
+                data: {
+                    user_id: {{auth()->user()->id}},
+                    device_id: filteredCoordinates[0].coordinates.id
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+            setTimeout(notifications, 300000);
+        }
 
         //leaflet.draw to help in Geo-fencing techniques
         var drawnItems = new L.FeatureGroup();
@@ -154,7 +240,8 @@ crossorigin=""></script>
         var drawControl = new L.Control.Draw({
             position: "topright",
             edit: {
-                featureGroup: drawnItems
+                featureGroup: drawnItems,
+                remove: true
             },
             draw: {
                 polygon: {
@@ -195,7 +282,7 @@ crossorigin=""></script>
                 type: "POST",
                 data: {
                     geojson: JSON.stringify(feature),
-                    device_id: currentCoordinate[0].coordinates.id
+                    device_id: {{$device->id}}
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -228,7 +315,7 @@ crossorigin=""></script>
                     type: "POST",
                     data: {
                         geojson: JSON.stringify(updatedGeoFence),
-                        device_id: currentCoordinate[0].coordinates.id
+                        device_id: {{$device->id}}
                     },
                     dataType: 'json',
                     success: function(response) {
@@ -246,89 +333,43 @@ crossorigin=""></script>
     {
         //displaying the geofences within the map
         if({!! json_encode($geofence) !!} !== null){
-            var myData = {!! $geofence !!}
-            L.geoJSON(myData).addTo(map);
+            var myGeo = {!! $geofence !!}
+            L.geoJSON(myGeo).addTo(map);
         }else{
             alert("No geofence set")
         }    
     }    
 
-    //setInterval(() => {
-        var presentData = {!! json_encode($geofence) !!}
-        if(presentData !== null) {
-            var myType = {!! $geofence !!}
-            type = myType.geometry.type
-            // check if the point is within the polygon
-            coordinates = turf.point([longitude, latitude])
-            jsonData = {!!$geofence!!}
-            poly = jsonData.geometry.coordinates[0]
-            //console.log(poly)
-            polygon = turf.polygon([poly])
-            isInside = turf.booleanPointInPolygon(coordinates, polygon);
-            console.log(isInside)
-            if(!isInside)
-            {
-                console.log("Device Out of Designated Area")
-                $.ajaxSetup({
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                //Email notifications
-                $.ajax({
-                    url: "{{ route('geofence.alert') }}",
-                    type: "POST",
-                    data: {
-                        user_id: {{auth()->user()->id}},
-                        device_id: currentCoordinate[0].coordinates.id
-                    },
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-
-                // var url = "/send-sms?user=" + {{auth()->user()->id}} + "&device=" + currentCoordinate[0].coordinates.id;
-                // var request = new XMLHttpRequest();
-                // request.open('GET', url);
-                // request.onload = function() {
-                // if (request.status === 200) {
-                //     console.log("sent")
-                // } else {
-                //     console.log("failed")
-                // }
-                // };
-                // request.send();
-
-                $.ajaxSetup({
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                //Email notifications
-                $.ajax({
-                    url: "{{ route('send.sms') }}",
-                    type: "POST",
-                    data: {
-                        user_id: {{auth()->user()->id}},
-                        device_id: currentCoordinate[0].coordinates.id
-                    },
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-            }else{
-                console.log("Device Still in Position")
+    //delete geofences
+    function deleteGeoFence()
+    {
+        //console.log({{$device->id}})
+        var id = {{$device->id}}
+        //sets the default headers for all subsequent AJAX requests, including the CSRF token
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }else{
-            console.log("No geofence set")
-        }
-    //}, 5000);
+        });
+
+        $.ajax({
+            url: "/delete/geofence/"+id,
+            type: "DELETE",
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+        location.reload();
+    }
+
+    
+        
 
 </script>
 

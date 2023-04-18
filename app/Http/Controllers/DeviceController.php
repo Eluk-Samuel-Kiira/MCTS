@@ -61,12 +61,26 @@ class DeviceController extends Controller
         $id = $device->id;
         $mytime = Carbon::now();
         $timeNow = $mytime->toDateTimeString();
-        $currentCoordinate = Location::with('coordinates')->where('device_id', $id)->get();
-        //dd($currentCoordinate);
 
         //Geofences
         $geofence = GeoFence::where('device_id',$id)->pluck('coordinates')->first();
-        return view('devices.show',compact('device','timeNow','currentCoordinate','geofence'));
+        return view('devices.show',compact('device','timeNow','geofence'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Device  $device
+     * @return \Illuminate\Http\Response
+     */
+    public function marker(Device $device)
+    {
+        $id = $device->id;
+        $currentCoordinate = Location::with('coordinates')->get();
+        //dd($currentCoordinate);
+        return response()->json([
+            'currentCoordinate' => $currentCoordinate
+        ]);
     }
 
     /**

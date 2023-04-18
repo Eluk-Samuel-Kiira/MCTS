@@ -80,4 +80,9 @@ Route::middleware([
     Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
     Route::post('/send-sms', [MapsController::class, 'sendSMS'])->name('send.sms');
     Route::get('/send-sms/twilio', [MapsController::class, 'twilioSMS'])->name('send.twilio');
+
+    Route::get('/marker', [DeviceController::class, 'marker'])->name('current.marker');
+    Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence'])->name('order.destroy');
+
+    
 });
