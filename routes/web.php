@@ -9,6 +9,8 @@ use App\Http\Controllers\LocationController;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Jobs\RunBladeFileJob;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,5 +86,11 @@ Route::middleware([
     Route::get('/marker', [DeviceController::class, 'marker'])->name('current.marker');
     Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence'])->name('order.destroy');
 
+    //job on Queue to check geofences even when offline or on another page
+    Route::get('/automap', function () {
+        RunBladeFileJob::dispatch()->onQueue('default');
+        //return redirect()->route('leaflet_maps.automap');
+    });
     
 });
+

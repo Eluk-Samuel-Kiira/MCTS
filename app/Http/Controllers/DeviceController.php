@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Models\GeoFence;
 
 
+
 class DeviceController extends Controller
 {
     /**
@@ -65,6 +66,7 @@ class DeviceController extends Controller
         //Geofences
         $geofence = GeoFence::where('device_id',$id)->pluck('coordinates')->first();
         return view('devices.show',compact('device','timeNow','geofence'));
+        
     }
 
     /**

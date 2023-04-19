@@ -11,7 +11,7 @@ class Device extends Model
     protected $fillable = ['name', 'user'];
 
     //1 device belongs to 1 user
-    public function devices()
+    public function userz()
     {
         return $this->belongsTo(User::class,'user');
     }

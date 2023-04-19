@@ -122,9 +122,28 @@ crossorigin=""></script>
         googleSat.addTo(map2);
 
 
+        //global coordinates for the user's current position
+        var lat = null;
+        var lng = null;
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // Get latitude and longitude values from position object
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+        }, function(error) {
+            // Handle any errors that occur while getting the position
+            console.error("Error getting position:", error);
+        });
+
         // Define the marker outside of the $.getJSON callback function so we can update it later
         var marker = L.marker([0, 0]).addTo(map);
         var mark = L.marker([0, 0]).addTo(map2);
+        //marker fot the parent
+        var marker_parent = L.marker([0, 0]).addTo(map);
+        var mark_parent = L.marker([0, 0]).addTo(map2);
+
+        var counter = 0;
+        var notify = 0;
+
 
         // Retrieve the updated coordinates from the DB every 5 second
         setInterval(function() {
@@ -134,12 +153,27 @@ crossorigin=""></script>
                 if (filteredCoordinates.length > 0) {
                     latitude = filteredCoordinates[0].latitude;
                     longitude = filteredCoordinates[0].longitude;
-                    // Update the marker's position
+
+                    // Update the marker's position for the device
                     marker.setLatLng([latitude, longitude]);
                     mark.setLatLng([latitude, longitude]);
-                    // Update the map's view to center on the marker
-                    map.setView([latitude, longitude], 13);
-                    map2.setView([latitude, longitude], 13);
+                    console.log(lat,lng)
+
+                    //Icons for the parent's location
+                    marker_parent.setLatLng([lat, lng]);
+                    mark_parent.setLatLng([lat, lng]);
+
+                    if(lat !== null)
+                    {
+                        // create a red polyline from an array of LatLng points
+                        var latlngs = [
+                            [lat, lng],
+                            [latitude, longitude]
+                        ];
+                        L.polyline(latlngs, {color: 'red'}).addTo(map);
+                        L.polyline(latlngs, {color: 'red'}).addTo(map2);
+                        //map.fitBounds(polyline.getBounds());
+                    }
                 }
                 //Map view
                 marker.on('click', mapClick);
@@ -162,6 +196,11 @@ crossorigin=""></script>
                         .openOn(map2);
                 }
 
+                //increment counter and notify
+                counter++;
+                notify++;
+
+                //GeoFence Violation Check by turf.js
                 var presentData = {!! json_encode($geofence) !!}
                 if(presentData !== null) {
                     var myType = {!! $geofence !!}
@@ -176,16 +215,31 @@ crossorigin=""></script>
                     console.log(isInside)
                     if(!isInside)
                     {
-                        //delay notifications and SMS by 5 minutes to avoid overfloading email, every 5 seconds
-                        notifications(filteredCoordinates);
+                        //delay notifications and SMS by 10 minutes(120 loops) to avoid overfloading email, every 5 seconds
+                        if(notify >= 2)
+                        {
+                            return;
+                        }else{
+                            notifications(filteredCoordinates);
+                        }
                     }else{
                         console.log("Device Still in Position")
                     }
                 }else{
                     console.log("No geofence set")
                 }
+                
+                if(counter <= 2)
+                {
+                    // Update the map's view to center on the marker
+                    map.setView([latitude, longitude], 13);
+                    map2.setView([latitude, longitude], 13);
+                }else {
+                    return;
+                }
+
             });
-        }, 500000)
+        }, 5000)
 
         function notifications(filteredCoordinates) {
             console.log("Device Out of Designated Area")
