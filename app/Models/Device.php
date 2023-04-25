@@ -10,11 +10,19 @@ class Device extends Model
     use HasFactory;
     protected $fillable = ['name', 'user'];
 
-    //1 device belongs to 1 user
     public function userz()
     {
         return $this->belongsTo(User::class,'user');
     }
 
+    public function geofences()
+    {
+        return $this->hasOne(GeoFence::class);
+    }
+
+    public function coordinates()
+    {
+        return $this->hasOne(Location::class);
+    }
 }
 

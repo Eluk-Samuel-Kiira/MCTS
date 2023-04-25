@@ -52,7 +52,7 @@
                                             Device Location
                                         </a>
                                     </td>
-                                    <td>{{ $device->devices->name }}</td>
+                                    <td>{{ $device->userz->name }}</td>
                                     <td>{{ $device->updated_at }}</td>
                                     <td>
                                         @if($device->status == 1) 
@@ -132,7 +132,7 @@
                                     <tr>
                                         <th scope="row">{{ $device->id }}</th>
                                         <td>{{ $device->name }}</td>
-                                        <td>{{ $device->devices->name }}</td>
+                                        <td>{{ $device->userz->name }}</td>
                                         <td>
                                             <a class="btn waves-effect waves-light btn-success" href="{{ route('device.show',$device) }}">
                                                 <i class="ti-map-alt"></i></i>

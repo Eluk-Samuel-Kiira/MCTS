@@ -21,7 +21,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $all_devices = Device::with('devices')->get();
+        $all_devices = Device::with('userz')->get();
         return view('devices.index',compact('all_devices'));
     }
 

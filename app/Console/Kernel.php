@@ -8,6 +8,10 @@ use App\Jobs\RunBladeFileJob;
 
 class Kernel extends ConsoleKernel
 {
+
+    protected $commands = [
+        Commands\TripHistory::class,
+    ];
     /**
      * Define the application's command schedule.
      *
@@ -16,8 +20,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->job(new RunBladeFileJob)->everyMinute();
+        $schedule->command('trip:history')->everyMinute()->withoutOverlapping();
     }
 
     /**

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Models\Device;
+use Carbon\Carbon;
+use App\Models\GeoFence;
 
 class LocationController extends Controller
 {
@@ -14,7 +17,11 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $device = Device::with('geofences','coordinates')->where('status', 1)->get();
+        $myTime = Carbon::now();
+        $timeNow = $myTime->toDateTimeString();
+        //$geofence = GeoFence::pluck('coordinates')->first();
+        return view('leaflet_maps.automap', compact('device'));
     }
 
     /**

@@ -36,14 +36,11 @@ class RunBladeFileJob implements ShouldQueue
      */
     public function handle()
     {
-        $device = Device::with('userz','geofences','coordinates')->get();
-        $mytime = Carbon::now();
-        $timeNow = $mytime->toDateTimeString();
-
+        $device = Device::with('geofences','coordinates')->where('status', 1)->get();
         $data = [
             'device' => $device,
         ];
-
+        \Log::info("The Job ran Successfully!");
         $content = View::make('leaflet_maps.automap', $data)->render();
     }
 }

@@ -79,7 +79,8 @@ crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 <!-- Turf.js Libraries -->
 <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
-
+<!-- Snake animation plugin -->
+<script src="{{asset('assets/js/L.Polyline.SnakeAnim.js')}}"></script>
 <script>
 
         var map;
@@ -143,6 +144,7 @@ crossorigin=""></script>
 
         var counter = 0;
         var notify = 0;
+        var poly_line = 0;
 
 
         // Retrieve the updated coordinates from the DB every 5 second
@@ -150,9 +152,10 @@ crossorigin=""></script>
             $.getJSON('/marker', function(data) {
                 var coordinates = data.currentCoordinate;    
                 var filteredCoordinates = coordinates.filter(obj => obj.device_id === {{$device->id}});
-                if (filteredCoordinates.length > 0) {
+                if(filteredCoordinates.length > 0) {
                     latitude = filteredCoordinates[0].latitude;
                     longitude = filteredCoordinates[0].longitude;
+                    console.log(latitude, longitude);
 
                     // Update the marker's position for the device
                     marker.setLatLng([latitude, longitude]);
@@ -170,11 +173,32 @@ crossorigin=""></script>
                             [lat, lng],
                             [latitude, longitude]
                         ];
-                        L.polyline(latlngs, {color: 'red'}).addTo(map);
-                        L.polyline(latlngs, {color: 'red'}).addTo(map2);
-                        //map.fitBounds(polyline.getBounds());
+                        var roadLine = L.polyline(latlngs, {color: 'red',  snakingSpeed: 200}).addTo(map);
+                        var roadSate = L.polyline(latlngs, {color: 'blue',  snakingSpeed: 200}).addTo(map2);
+
+                        //Polyline status for map view
+                        //roadLine.snakeIn();
+                        marker.on('move', function(e) {
+                            // get the new position of the marker
+                            var newPosition = e.latlng;
+                            // update the coordinates of the polyline to include the new position of the marker
+                            map.removeLayer(roadLine);
+                            roadLine.addLatLng(newPosition);
+                        });
+
+                        //Polyline status for map view
+                        mark.on('move', function(e) {
+                            // get the new position of the marker
+                            var position = e.latlng;
+                            // update the coordinates of the polyline to include the new position of the marker
+                            map2.removeLayer(roadSate);
+                            roadSate.addLatLng(position);
+                        });
                     }
                 }
+                //increment counter and notify
+                counter++;
+                notify++;
                 //Map view
                 marker.on('click', mapClick);
                 var pop = L.popup();
@@ -195,10 +219,6 @@ crossorigin=""></script>
                         .setContent("The current location of " +filteredCoordinates[0].coordinates.name+ " is " + e.latlng.toString())
                         .openOn(map2);
                 }
-
-                //increment counter and notify
-                counter++;
-                notify++;
 
                 //GeoFence Violation Check by turf.js
                 var presentData = {!! json_encode($geofence) !!}
@@ -234,6 +254,7 @@ crossorigin=""></script>
                     // Update the map's view to center on the marker
                     map.setView([latitude, longitude], 13);
                     map2.setView([latitude, longitude], 13);
+                    // map.removeLayer(roadLine);
                 }else {
                     return;
                 }
