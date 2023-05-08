@@ -54,7 +54,7 @@ crossorigin=""></script>
         // Loop through each table row
         $('#device-table tbody tr').each(function() {
             // Get the ID and map container for this row
-            var deviceId = $(this).find('td:first-child').text();
+            var deviceId = parseInt($(this).find('td:first-child').text());
             var mapContainer = $(this).find('.map-container')[0];
 
             // Get the latitude and longitude for this device
@@ -74,7 +74,7 @@ crossorigin=""></script>
             setInterval(function() {
                 $.getJSON('/marker', function(data) {
                     var coordinates = data.currentCoordinate;    
-                    var filteredCoordinates = coordinates.filter(obj => obj.device_id === {{$device->id}});
+                    var filteredCoordinates = coordinates.filter(obj => obj.device_id === deviceId);
                     if (filteredCoordinates.length > 0) {
                         latitude = filteredCoordinates[0].latitude;
                         longitude = filteredCoordinates[0].longitude;

@@ -10,6 +10,7 @@ use App\Models\Visitor;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Jobs\RunBladeFileJob;
+use App\Models\Device;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,12 @@ Route::middleware([
         RunBladeFileJob::dispatch()->onQueue('default');
         //return redirect()->route('leaflet_maps.automap');
     });
+
+    //Download file logs for the movements
+    Route::get('/download/{filename}', function ($filename) {
+        return response()->download($filename);
+    })->name('download');
+    
     
 });
 

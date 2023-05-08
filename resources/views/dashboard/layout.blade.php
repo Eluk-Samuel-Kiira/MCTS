@@ -96,7 +96,7 @@
                 <nav class="navbar header-navbar pcoded-header">
                     <div class="navbar-wrapper">
                         <div class="navbar-logo">
-                            <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="//">
+                            <a class="mobile-menu waves-effect waves-light" id="mobile-collapse">
                                 <i class="ti-menu"></i>
                             </a>
                             <div class="mobile-search waves-effect waves-light">
@@ -121,7 +121,7 @@
                             <ul class="nav-right">
                                 @if( auth()->user()->role == 2)
                                     <li class="header-notification">
-                                        <a href="//" class="waves-effect waves-light">
+                                        <a class="waves-effect waves-light">
                                             <i class="ti-bell"></i>
                                             <span class="badge bg-c-red"></span>
                                         </a>
@@ -144,7 +144,7 @@
                                     </li>
                                 @endif
                                 <li class="user-profile header-notification">
-                                    <a href="//" class="waves-effect waves-light">
+                                    <a class="waves-effect waves-light">
                                         <img src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" class="img-radius" height="40" alt="{{ auth()->user()->name }}">
                                         <span>{{ auth()->user()->name }}</span>
                                         <i class="ti-angle-down"></i>
@@ -216,7 +216,7 @@
                                     <div class="pcoded-navigation-label">Device Management</div>
                                     <ul class="pcoded-item pcoded-left-item">
                                         <li class="pcoded-hasmenu">
-                                            <a href="//" class="waves-effect waves-dark">
+                                            <a class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-receipt"></i></span>
                                                 <span class="pcoded-mtext">Devices</span>
                                                 <span class="pcoded-mcaret"></span>
@@ -244,7 +244,7 @@
                                     <div class="pcoded-navigation-label">User Management</div>
                                     <ul class="pcoded-item pcoded-left-item">
                                         <li class="pcoded-hasmenu">
-                                            <a href="//" class="waves-effect waves-dark">
+                                            <a class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                                                 <span class="pcoded-mtext">User Details</span>
                                                 <span class="pcoded-mcaret"></span>

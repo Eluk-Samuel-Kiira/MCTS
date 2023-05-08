@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 30, 2023 at 07:04 PM
+-- Generation Time: Apr 26, 2023 at 07:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -43,8 +43,9 @@ CREATE TABLE `devices` (
 INSERT INTO `devices` (`id`, `name`, `user`, `status`, `created_at`, `updated_at`) VALUES
 (2, 'dev-945g', '12', 1, '2023-03-20 13:27:15', '2023-03-20 13:48:14'),
 (3, 'dev-034ty', '3', 1, '2023-03-20 14:11:36', '2023-03-29 04:44:21'),
-(5, 'dev-747jh', '12', 0, '2023-03-20 14:29:58', '2023-03-20 14:29:58'),
-(6, 'dev-898ht', '3', 0, '2023-03-28 10:10:25', '2023-03-28 10:10:25');
+(5, 'dev-747jh', '12', 1, '2023-03-20 14:29:58', '2023-04-21 06:34:58'),
+(6, 'dev-898ht', '3', 1, '2023-03-28 10:10:25', '2023-04-21 06:33:14'),
+(7, 'KK-834', '13', 1, '2023-04-20 12:31:31', '2023-04-20 12:37:26');
 
 -- --------------------------------------------------------
 
@@ -81,10 +82,9 @@ CREATE TABLE `geo_fences` (
 --
 
 INSERT INTO `geo_fences` (`id`, `device_id`, `coordinates`, `created_at`, `updated_at`) VALUES
-(1, '2', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.537212,0.390836],[32.537212,0.390836],[32.563123,0.403023],[32.563123,0.403023],[32.54991,0.386201],[32.54991,0.386201],[32.537555,0.390664],[32.537212,0.390836]]]}}', '2023-03-30 08:25:44', '2023-03-30 08:25:44'),
-(2, '3', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.547003,0.3535],[32.547003,0.3535],[32.569482,0.348694],[32.569482,0.348694],[32.566565,0.361225],[32.566565,0.361225],[32.548033,0.35556],[32.548033,0.35556],[32.547003,0.3535]]]}}', '2023-03-28 10:07:43', '2023-03-28 10:07:43'),
-(3, '5', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.550942,0.365774],[32.550942,0.365774],[32.526575,0.358049],[32.526575,0.358049],[32.552315,0.356676],[32.552315,0.356676],[32.566042,0.363199],[32.566042,0.363199],[32.550942,0.366289],[32.550942,0.365774]]]}}', '2023-03-29 11:11:22', '2023-03-29 11:11:22'),
-(7, '6', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.537555,0.393754],[32.537555,0.393754],[32.560034,0.390149],[32.560034,0.390149],[32.561579,0.409031],[32.561579,0.409031],[32.536526,0.393925],[32.537555,0.393754]]]}}', '2023-03-30 10:52:17', '2023-03-30 10:52:17');
+(14, '6', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.544427,0.384656],[32.544427,0.384656],[32.563989,0.393582],[32.563989,0.393582],[32.567421,0.379163],[32.567421,0.379163],[32.547859,0.371953],[32.547859,0.371953],[32.544256,0.385514],[32.544427,0.384656]]]}}', '2023-04-26 13:34:11', '2023-04-26 13:34:11'),
+(26, '5', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.548891,0.340265],[32.548891,0.340265],[32.561245,0.354513],[32.561245,0.354513],[32.569139,0.339922],[32.569139,0.339922],[32.559186,0.337004],[32.559186,0.337004],[32.548719,0.341638],[32.548891,0.340265]]]}}', '2023-04-21 05:29:30', '2023-04-21 05:29:30'),
+(27, '7', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[32.61395,0.383283],[32.61395,0.383283],[32.632825,0.386201],[32.632825,0.386201],[32.638488,0.367318],[32.638488,0.367318],[32.617382,0.363027],[32.617382,0.363027],[32.613778,0.383969],[32.61395,0.383283]]]}}', '2023-04-26 13:22:35', '2023-04-26 13:22:35');
 
 -- --------------------------------------------------------
 
@@ -107,10 +107,11 @@ CREATE TABLE `locations` (
 --
 
 INSERT INTO `locations` (`id`, `device_id`, `latitude`, `longitude`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, '0.339730', '32.562190', 0, '2023-03-21 15:37:29', '2023-03-21 15:37:29'),
-(2, 5, '0.339730', '32.562190', 0, '2023-03-21 15:39:19', '2023-03-21 15:39:19'),
-(3, 2, '0.3802', '32.5571', 0, '2023-03-24 09:11:55', '2023-03-24 09:11:55'),
-(4, 6, '0.3802', '32.5571', 0, '2023-03-28 13:21:07', '2023-03-28 13:21:07');
+(1, 3, '0.34773', '32.562190', 0, '2023-03-21 15:37:29', '2023-03-21 15:37:29'),
+(2, 5, '0.34973', '32.562190', 0, '2023-03-21 15:39:19', '2023-03-21 15:39:19'),
+(3, 2, '0.3402', '32.66571', 0, '2023-03-24 09:11:55', '2023-03-24 09:11:55'),
+(4, 6, '0.3802', '32.5571', 0, '2023-03-28 13:21:07', '2023-03-28 13:21:07'),
+(5, 7, '0.37734', '32.6258', 0, '2023-04-20 15:38:14', '2023-04-20 15:38:14');
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('RiLPbu5TMnJ1Rxgqwp2JLtFra0Wr0a4meFf4TkuV', 10, '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN3k2a3dKVEhUNUNFYnFVcU9hRjl1QVJDYmVvSWFnZnh5NW5rNElDNSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kZXZpY2UvNSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjEwO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJElsQjVzMG5nUDBDRTdwZFZscVZ6ZS45QkpaUi5sbWd4LjNHSnllbE9qbS5pdnpWc2hkV1B5Ijt9', 1680195819);
+('UvcArez32Y2p29bIlFiWpmGEmWmMxzlOkJ8zcYVo', 1, '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiT0txSWxxN05ISlRYNEV5MTVJZkhtQnFsRk5keDA5QVZaZ1BPR3VFZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90cmlwL2hpc3RvcnkvNyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkOHk5ZmJ3d0ZPSlFJSFAvSWFvNU41LmE2YzJKTHlGQURWdS9IWmk5T2dDR3AvdVQwRFBLNHEiO30=', 1682530102);
 
 -- --------------------------------------------------------
 
@@ -238,7 +239,7 @@ CREATE TABLE `users` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` int(11) DEFAULT 0,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contact` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact` bigint(20) DEFAULT NULL,
   `status` smallint(1) DEFAULT 0,
   `location` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
@@ -258,12 +259,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `contact`, `status`, `location`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(1, 'Samuel Kiira', 2, 'samuelkiiraeluk@gmail.com', '+256754428612', 1, 'Obuto-welo', NULL, '$2y$10$8y9fbwwFOJQIHP/Iao5N5.a6c2JLyFADVu/HZi9OgCGp/uT0DPK4q', NULL, NULL, NULL, 'GkN7mgJd6ggkzvwjeAIr7nX7DH7FlOAb3skHiX8W5ji2Hx6YDm8oD6Uzn7TI', NULL, '1678367240.jpg', '2023-02-14 06:12:29', '2023-03-15 05:49:35'),
-(2, 'kenneth Ogire', 2, 'ogirekenneth@gmail.com', '+256709285727', 1, 'Nansana', NULL, '$2y$10$E0nJ/4LmK5bqnduyH5RPVu8M2/wBXbTc7kigpep7dKQ8ZSIRZkMFK', NULL, NULL, NULL, NULL, NULL, '1678368921.jpg', '2023-02-16 08:13:54', '2023-03-30 10:32:47'),
-(3, 'Okello Martin', 1, 'cypherlinkservices@gmail.com', '+256772651432', 1, 'Nakawa', NULL, '$2y$10$4gXTeM20rRCCsatcOJK9COTcy/HalES4mbQ/QdsiCdvSGaidpjmxW', NULL, NULL, NULL, NULL, NULL, '1678177912.jpg', '2023-02-16 08:43:57', '2023-03-30 10:33:30'),
-(10, 'Elizabeth Nanyonga', 2, 'nanyongaelizabeth71@gmail.com', '+256755362382', 1, 'Entebbe', NULL, '$2y$10$IlB5s0ngP0CE7pdVlqVze.9BJZR.lmgx.3GJyelOjm.ivzVshdWPy', NULL, NULL, NULL, NULL, NULL, '1678367352.jpg', '2023-03-09 06:34:47', '2023-03-30 10:34:03'),
-(11, 'Timothy C. Waniaye', 2, 'tcwaniaye@gmail.com', '+256778315407', 1, 'Soroti Town', NULL, '$2y$10$DEVcnz5JQ6jk4/05.G1LU.K1KP8PfBL96CZLSbZ58RL/5540VbZ3K', NULL, NULL, NULL, NULL, NULL, '1678369068.jpg', '2023-03-09 06:37:49', '2023-03-30 10:34:50'),
-(12, 'Fred SSeginda', 1, 'fredsseginda70@gmail.com', '+256709086964', 1, 'Nakawa', NULL, '$2y$10$GKZrOOTIF6p0MJZ.QrHooeJzleCZoRoatrALtZy0snqU0ovWqjf2e', NULL, NULL, NULL, NULL, NULL, '1679334191.jpg', '2023-03-15 08:49:23', '2023-03-30 10:35:15');
+(1, 'Samuel Kiira', 2, 'samuelkiiraeluk@gmail.com', 256754428612, 1, 'Obuto-welo', NULL, '$2y$10$8y9fbwwFOJQIHP/Iao5N5.a6c2JLyFADVu/HZi9OgCGp/uT0DPK4q', NULL, NULL, NULL, 'suJ4gSuTg1vgCFcECi6kuv1p2lBm7kz9Kh097jurwxdT5HEQkcbODeh00SOK', NULL, '1678367240.jpg', '2023-02-14 06:12:29', '2023-03-15 05:49:35'),
+(2, 'kenneth Ogire', 2, 'ogirekenneth@gmail.com', 256709279744, 1, 'Nansana', NULL, '$2y$10$E0nJ/4LmK5bqnduyH5RPVu8M2/wBXbTc7kigpep7dKQ8ZSIRZkMFK', NULL, NULL, NULL, NULL, NULL, '1678368921.jpg', '2023-02-16 08:13:54', '2023-03-30 10:32:47'),
+(3, 'Okello Martin', 1, 'cypherlinkservices@gmail.com', 256772653056, 1, 'Nakawa', NULL, '$2y$10$4gXTeM20rRCCsatcOJK9COTcy/HalES4mbQ/QdsiCdvSGaidpjmxW', NULL, NULL, NULL, NULL, NULL, '1678177912.jpg', '2023-02-16 08:43:57', '2023-03-30 10:33:30'),
+(10, 'Elizabeth Nanyonga', 2, 'nanyongaelizabeth71@gmail.com', 256755367936, 1, 'Entebbe', NULL, '$2y$10$IlB5s0ngP0CE7pdVlqVze.9BJZR.lmgx.3GJyelOjm.ivzVshdWPy', NULL, NULL, NULL, NULL, NULL, '1678367352.jpg', '2023-03-09 06:34:47', '2023-03-30 10:34:03'),
+(11, 'Timothy C. Waniaye', 2, 'tcwaniaye@gmail.com', 256778321920, 1, 'Soroti Town', NULL, '$2y$10$DEVcnz5JQ6jk4/05.G1LU.K1KP8PfBL96CZLSbZ58RL/5540VbZ3K', NULL, NULL, NULL, NULL, NULL, '1678369068.jpg', '2023-03-09 06:37:49', '2023-03-30 10:34:50'),
+(12, 'Fred SSeginda', 1, 'fredsseginda70@gmail.com', 256709083136, 1, 'Nakawa', NULL, '$2y$10$GKZrOOTIF6p0MJZ.QrHooeJzleCZoRoatrALtZy0snqU0ovWqjf2e', NULL, NULL, NULL, NULL, NULL, '1679334191.jpg', '2023-03-15 08:49:23', '2023-03-30 10:35:15'),
+(13, 'The Sealed', 1, 'the5107sealed@yahoo.com', 256754428612, 0, 'Gulu', NULL, '$2y$10$KtxPHBMfJ30f1r2V1lRzOO/FgIj/M/uanxwlvhm6iIoul3bHGko6y', NULL, NULL, NULL, NULL, NULL, NULL, '2023-04-20 12:27:48', '2023-04-20 12:30:33');
 
 -- --------------------------------------------------------
 
@@ -286,7 +288,7 @@ CREATE TABLE `visitors` (
 --
 
 INSERT INTO `visitors` (`id`, `ip`, `visited_date`, `visited_time`, `visits`, `created_at`, `updated_at`) VALUES
-(2, '127.0.0.1', '2023-03-30', '16:17:25', '235', '2023-03-30 13:17:25', '2023-03-30 13:17:25');
+(2, '127.0.0.1', '2023-04-26', '16:23:38', '254', '2023-04-26 13:23:38', '2023-04-26 13:23:38');
 
 --
 -- Indexes for dumped tables
@@ -374,7 +376,7 @@ ALTER TABLE `visitors`
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -386,13 +388,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `geo_fences`
 --
 ALTER TABLE `geo_fences`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -416,7 +418,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `visitors`

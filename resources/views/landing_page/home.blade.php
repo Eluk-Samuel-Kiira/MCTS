@@ -340,7 +340,7 @@
           @forelse($team_members as $admin)
             <div class="col-lg-3 col-md-6">
               <div class="member" data-aos="zoom-in" data-aos-delay="100">
-                <div class="pic"><img src="{{ asset('storage/profile_photo')}}/{{$admin->profile_photo_path }}" class="img-fluid" alt="photo"></div>
+                <div class="pic" style="height: 400px;"><img src="{{ asset('storage/profile_photo')}}/{{$admin->profile_photo_path }}" class="img-fluid" alt="photo"></div>
                 <div class="member-info">
                   <h4>{{ $admin->name }}</h4>
                   <span>Administrator</span>

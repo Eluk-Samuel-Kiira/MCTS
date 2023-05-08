@@ -27,8 +27,17 @@ class MapsController extends Controller
     public function trip_history($id)
     {
         //data to be retrieved from text file as devt proceeds
-        $deviceHistory = Device::find($id);
-        return view('devices.history',compact('deviceHistory'));
+        $devices = Device::with('geofences','coordinates')->where('id', $id)->get();
+        return view('devices.history',compact('devices'));
+        // foreach($devices as $device) 
+        // {
+        //     $createdAt = Carbon::parse($device->created_at)->format('Y-m-d');
+        //     $filePath = storage_path('app/public/TripHistories/'.$device->user.'/'.$device->id.'/'.$createdAt.'.txt');
+        //     $fileName = basename($filePath);
+        //     $fileContents = file_get_contents($filePath);
+            
+        // }
+        
     }
 
     public function storeGeofence(Request $request)
