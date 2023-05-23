@@ -9,7 +9,7 @@ use App\Models\Device;
 class Location extends Model
 {
     use HasFactory;
-    protected $fillable = ['device_id', 'longitude','latitude'];
+    protected $fillable = ['device_id', 'longitude','latitude','status'];
 
     public function coordinates()
     {

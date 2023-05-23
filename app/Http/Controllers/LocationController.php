@@ -90,4 +90,18 @@ class LocationController extends Controller
     {
         //
     }
+
+    public function addLocation(Request $request){
+        $location = new Location();
+        $location->device_id = $request->device_id;
+        $location->latitude = $request->latitude;
+        $location->longitude = $request->longitude;
+        $location->status = $request->status;
+        $result = $location->save();
+        if($result){
+            return ["result"=>"data has been saved"];
+        }else{
+            return ["result"=>"error saving the data"];
+        }
+    }
 }

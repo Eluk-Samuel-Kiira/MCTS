@@ -145,7 +145,7 @@
                                 @endif
                                 <li class="user-profile header-notification">
                                     <a class="waves-effect waves-light">
-                                        <img src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" class="img-radius" height="40" alt="{{ auth()->user()->name }}">
+                                        <img src="{{ asset('storage/profile_photo') }}/{{ auth()->user()->profile_photo_path }}" class="img-radius" height="40">
                                         <span>{{ auth()->user()->name }}</span>
                                         <i class="ti-angle-down"></i>
                                     </a>
@@ -315,7 +315,7 @@
                         </div>
                         <!-- Page-header end -->
                         @yield('content')
-                    </div>    
+                    </div>
                 </div>
             </div>
         </div>
