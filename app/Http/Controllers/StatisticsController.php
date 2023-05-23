@@ -42,7 +42,7 @@ class StatisticsController extends Controller
             $imageName = time().'.'.$image->extension();
             $image->move(storage_path('app/public/profile_photo'),$imageName);
             $user_photo->update(['profile_photo_path' => $imageName]);
-        
+
         }
 
         return redirect()->route('users.index')->with('status','User Profile-Photo Updated Successfully');
@@ -81,11 +81,10 @@ class StatisticsController extends Controller
         return redirect()->back()->with('status', 'The Order Was Been Deleted Successfully');
     }
 
-    // leaflet.js 
+    // leaflet.js
     public function my_location()
     {
-        //$ip = \Request::getClientIp(); //for dynamic $ips
-        $ip = "102.134.149.112";
+        $ip = \Request::getClientIp(); //for dynamic $ips
         $currentUserInfo = Location::get($ip);
         //dd($currentUserInfo);
         return view('leaflet_maps.mylocation',compact('currentUserInfo'));

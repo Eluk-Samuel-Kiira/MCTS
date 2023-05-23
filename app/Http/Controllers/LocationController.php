@@ -92,16 +92,41 @@ class LocationController extends Controller
     }
 
     public function addLocation(Request $request){
-        $location = new Location();
-        $location->device_id = $request->device_id;
-        $location->latitude = $request->latitude;
-        $location->longitude = $request->longitude;
-        $location->status = $request->status;
-        $result = $location->save();
+        $result = Location::updateOrInsert(['device_id' => $request->device_id],[
+            'latitude'=>$request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
         if($result){
-            return ["result"=>"data has been saved"];
+            return ["result"=>"success"];
         }else{
-            return ["result"=>"error saving the data"];
+            return ["result"=>"error"];
         }
+
+        // $location = Location::find($request->device_id);
+        // if($location){
+        //     $location->latitude = $request->latitude;
+        //     $location->longitude = $request->longitude;
+        //     $location->status = $request->status;
+        //     $result = $location->save();
+        //     if($result){
+        //         return ["result"=>"data has been updated"];
+        //     }else{
+        //         return ["result"=>"error updating the data"];
+        //     }
+        // }else{
+        //     $location = new Location();
+        //     $location->device_id = $request->device_id;
+        //     $location->latitude = $request->latitude;
+        //     $location->longitude = $request->longitude;
+        //     $location->status = $request->status;
+        //     $result = $location->save();
+        //     if($result){
+        //         return ["result"=>"data has been saved"];
+        //     }else{
+        //         return ["result"=>"error saving the data"];
+        //     }
+        // }
+
     }
 }
