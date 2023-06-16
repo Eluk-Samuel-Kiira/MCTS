@@ -82,10 +82,12 @@ Route::middleware([
     Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
     Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
     Route::post('/send-sms', [MapsController::class, 'sendSMS'])->name('send.sms');
-    Route::get('/send-sms/twilio', [MapsController::class, 'twilioSMS'])->name('send.twilio');
+    Route::post('/devices/location', [MapsController::class, 'updateDeviceCoordinates'])->name('device.location');
+    //This is a test route
+    //Route::get('/dev/loc', [MapsController::class, 'logCoordinatesToFile'])->name('dev.location');
 
     Route::get('/marker', [DeviceController::class, 'marker'])->name('current.marker');
-    Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence'])->name('order.destroy');
+    Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence']);
 
     //job on Queue to check geofences even when offline or on another page
     Route::get('/automap', function () {

@@ -122,7 +122,6 @@ crossorigin=""></script>
                     }else {
                         return;
                     }
-
                 });
             }, 5000)
 
@@ -149,9 +148,10 @@ crossorigin=""></script>
                     }
                 });
 
+                //SMS calls
                 $.ajaxSetup({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 //SMS notifications ajax
@@ -171,10 +171,46 @@ crossorigin=""></script>
                 });
             }
             setInterval(function(){
-            location.reload();
+                location.reload();
             }, 600000); // 600000 milliseconds = 10 minutes
 
         });
+
+        // Fetching device location after every 1 second at thinkSpeak
+        function fetchData() {
+            const url = 'https://api.thingspeak.com/channels/2160030/feeds.json?api_key=8X996CRIODRN4IK3&results=2';
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // updating the device coordinates from the controller
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    //update the device locations
+                    $.ajax({
+                        url: "{{ route('device.location') }}",
+                        type: "POST",
+                        data: {
+                            device_location: JSON.stringify(data) 
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        setInterval(fetchData, 3000); //After every one second
     });
         
 </script>

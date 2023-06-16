@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use App\Models\Location;
 use App\Models\User;
 use App\Models\GeoFence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\OutGeoFence;
+use AfricasTalking\SDK\AfricasTalking;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class MapsController extends Controller
 {
@@ -93,28 +97,157 @@ class MapsController extends Controller
 
     public function sendSMS(Request $request)
     {
-        $user_id = $request->input('user_id');
-        $device_id = $request->input('device_id');
+        // $user_id = $request->input('user_id');
+        // $device_id = $request->input('device_id');
         
-        $contact = User::where('id', $user_id)->pluck('contact')->first();
-        $username = User::where('id', $user_id)->pluck('name')->first();
-        $device = Device::where('id', $device_id)->pluck('name')->first();
+        // $contact = User::where('id', $user_id)->pluck('contact')->first();
+        // $username = User::where('id', $user_id)->pluck('name')->first();
+        // $device = Device::where('id', $device_id)->pluck('name')->first();
         
-        $basic  = new \Vonage\Client\Credentials\Basic("383ddc75", "DfzWYCld95UpRBWp");
-        $client = new \Vonage\Client($basic);
-        //SMS notification
-        $response = $client->sms()->send(
-            new \Vonage\SMS\Message\SMS($contact, 'MCTS', 'Hello '.$username.' Device '.$device.' appears to be out of the designated area(GeoFence) which you earlier specified.')
-        );
-        $message = $response->current();
-        if ($message->getStatus() == 0) {
-            return response()->json([
-                'message' => 'The message was Successfully sent'
+        // $basic  = new \Vonage\Client\Credentials\Basic("911329d3", "DXJ8rtoucOlcwkF9");
+        // $client = new \Vonage\Client($basic);
+        // //SMS notification
+        // $response = $client->sms()->send(
+        //     new \Vonage\SMS\Message\SMS($contact, 'MCTS', 'Hello '.$username.' Device '.$device.' appears to be out of the designated area(GeoFence) which you earlier specified.')
+        // );
+        // $message = $response->current();
+        // if ($message->getStatus() == 0) {
+        //     return response()->json([
+        //         'message' => 'The message was Successfully sent'
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         'message' => 'The message failed'
+        //     ]);
+        // }
+    }
+
+    public function updateDeviceCoordinates(Request $request)
+    {
+        $location_data = $request->input('device_location');
+        //$location_data = '{"channel":{"id":2160030,"name":"gps","latitude":"0.0","longitude":"0.0","field1":"device_id","field2":"latitude","field3":"longitude","field4":"time","field5":"date","field6":"alertStatus","created_at":"2023-05-23T12:27:28Z","updated_at":"2023-05-31T14:06:08Z","last_entry_id":149},"feeds":[{"created_at":"2023-05-31T15:03:01Z","entry_id":148,"field1":"3","field2":"0.33158982","field3":"32.57056000","field4":"18:1:39","field5":"31-5-2023","field6":"1"},{"created_at":"2023-05-31T15:04:33Z","entry_id":149,"field1":"1","field2":"0.33158982","field3":"32.57056000","field4":"18:3:11","field5":"31-5-2023","field6":"0"}]}';
+        $jsonData = json_decode($location_data, true);
+        $feeds = $jsonData['feeds']; 
+        
+        for ($i = 0; $i < count($feeds); $i++) {
+            $entryId = $feeds[$i]['entry_id'];
+            $device_id = $feeds[$i]['field1'];
+            $latitude = $feeds[$i]['field2'];
+            $longitude = $feeds[$i]['field3'];
+            $updated_at = $feeds[$i]['created_at'];
+            $time = $feeds[$i]['field4'];
+            $date = $feeds[$i]['field5'];
+            $alertStatus = $feeds[$i]['field6'];
+
+            //Date issues
+            $date = new \DateTime($updated_at);
+            $formattedDate = $date->format('Y-m-d H:i:s');
+            
+            //Update the various device locations
+            $result = Location::updateOrInsert(['device_id' => $device_id],[
+                'latitude'=> $latitude,
+                'longitude' => $longitude,
+                'updated_at' => $formattedDate,
+                'status' => $alertStatus,
             ]);
-        } else {
-            return response()->json([
-                'message' => 'The message failed'
-            ]);
+
+            // Check for the status of the button
+            if($alertStatus == 1)
+            {
+                $this->makeAlert($device_id);
+            }
+
+            // Log the details to the file system
+            $this->logCoordinatesToFile();
+    
+            if($result){
+                return ["result"=>"success"];
+            }else{
+                return ["result"=>"error"];
+            }
+
         }
+        
+    }
+
+    public function makeAlert($device_id)
+    {
+        //$device_id = 3;
+        // $user_id = Device::where('id', $device_id)->pluck('user')->first();
+        // $contact = User::where('id', $user_id)->pluck('contact')->first();
+        // $user = User::where('id', $user_id)->pluck('name')->first();
+        // $device = Device::where('id', $device_id)->pluck('name')->first();
+
+        // $basic  = new \Vonage\Client\Credentials\Basic("911329d3", "DXJ8rtoucOlcwkF9");
+        // $client = new \Vonage\Client($basic);
+        // //SMS notification
+        // $response = $client->sms()->send(
+        //     new \Vonage\SMS\Message\SMS(256754428612, 'MCTS', 'Hello, '.$user.' take note that, the user of device '.$device.' appears to be in an emergency,
+        //     Kindly respond quickly!')
+        // );
+        return;
+    }
+
+
+    public function logCoordinatesToFile()
+    {
+        $devices = Device::with('geofences','coordinates')->get();
+        $nowDate = Carbon::now()->format('Y-m-d');
+
+        //loop through all the devices
+        foreach($devices as $device) 
+        {
+            $createdAt = Carbon::parse($device->coordinates->created_at)->format('Y-m-d');
+            $latLngData = $device->coordinates->where('device_id', $device->id)->select('latitude', 'longitude','updated_at','device_id')->get();
+            $filePath = storage_path('app/public/TripHistories/'.$device->user.'/'.$device->id.'/'.$createdAt.'.txt');
+            
+            //dd($nowDate);
+            $dateString = $device->coordinates->created_at;
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $dateString);
+            $hoursDiff = $date->diffInHours(Carbon::now());
+            if (File::exists($filePath) && $hoursDiff <= 24)
+            {
+                // The file exists and was created in the last 24 hours
+                \Log::info('the file still exist');
+                $fileName = basename($filePath);
+
+                //loop to the last line of the file content time
+                $file_contents = fopen($filePath, 'r');
+                fseek($file_contents, 0, SEEK_END);
+                //position of the last byte
+                $last_byte_pos = ftell($file_contents);
+                rewind($file_contents);
+                while(ftell($file_contents) < $last_byte_pos) {
+                    $content = fgets($file_contents);
+                    $data = json_decode($content, true);
+                }
+                \Log::info($data);
+                // looping through the contents of the file
+                foreach ($data as $item) {
+                    $new_latitude = $device->coordinates->where('device_id', $device->id)->pluck('latitude')->first();
+                    $new_longitude = $device->coordinates->where('device_id', $device->id)->pluck('longitude')->first();
+                    $file_latitude = $item['latitude'];
+                    $file_longitude = $item['longitude'];
+                    // compare with the incoming new coordinates
+                    if($new_latitude == $file_latitude || $new_longitude == $file_latitude)
+                    {
+                        \Log::info($device->name.' Device Position not Changed as yet');
+                    }else {
+                        \Log::info($device->name.' Device changed location to '.$new_latitude.' and '.$new_longitude);
+                        // Open the file in append mode
+                        $file = fopen($filePath, 'a');
+                        fwrite($file, $latLngData."\n");
+                        fclose($file);
+                    }
+                }
+                fclose($file_contents);
+            } else {
+                // The file either doesn't exist or was not created in the last 24 hours, therefore we create a new file
+                \Log::info('file does not exist');
+                Storage::disk('local')->put('public/TripHistories/'.$device->user.'/'.$device->id.'/'.$createdAt.'.txt', $latLngData."\n");
+            }
+
+        }
+        return;
     }
 }

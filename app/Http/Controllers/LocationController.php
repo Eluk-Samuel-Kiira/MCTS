@@ -102,31 +102,5 @@ class LocationController extends Controller
         }else{
             return ["result"=>"error"];
         }
-
-        // $location = Location::find($request->device_id);
-        // if($location){
-        //     $location->latitude = $request->latitude;
-        //     $location->longitude = $request->longitude;
-        //     $location->status = $request->status;
-        //     $result = $location->save();
-        //     if($result){
-        //         return ["result"=>"data has been updated"];
-        //     }else{
-        //         return ["result"=>"error updating the data"];
-        //     }
-        // }else{
-        //     $location = new Location();
-        //     $location->device_id = $request->device_id;
-        //     $location->latitude = $request->latitude;
-        //     $location->longitude = $request->longitude;
-        //     $location->status = $request->status;
-        //     $result = $location->save();
-        //     if($result){
-        //         return ["result"=>"data has been saved"];
-        //     }else{
-        //         return ["result"=>"error saving the data"];
-        //     }
-        // }
-
     }
 }

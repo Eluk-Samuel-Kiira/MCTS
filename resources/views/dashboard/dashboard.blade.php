@@ -148,6 +148,18 @@
                                 </div>
                             </div>
                             <!-- Material statustic card end -->
+
+                            <!-- All Device Locations -->
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card" style="height: 520px">
+                                    <div class="card-header">
+                                        <h5>Active Devices</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div id="map" class="set-map"></div>
+                                    </div>
+                                </div>
+                            </div>
                             <!--  sale analytics start -->
                             <div class="col-xl-6 col-md-12">
                                 <div class="card table-card">
@@ -188,71 +200,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-md-12">
-                                <div class="row">
-                                    <!-- sale card start -->
-
-                                    <div class="col-md-6">
-                                        <div class="card text-center order-visitor-card">
-                                            <div class="card-block">
-                                                <h6 class="m-b-0">Total Subscription</h6>
-                                                <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-down m-r-15 text-c-red"></i>7652</h4>
-                                                <p class="m-b-0">48% From Last 24 Hours</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card text-center order-visitor-card">
-                                            <div class="card-block">
-                                                <h6 class="m-b-0">Order Status</h6>
-                                                <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-up m-r-15 text-c-green"></i>6325</h4>
-                                                <p class="m-b-0">36% From Last 6 Months</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card bg-c-red total-card">
-                                            <div class="card-block">
-                                                <div class="text-left">
-                                                    <h4>489</h4>
-                                                    <p class="m-0">Total Comment</p>
-                                                </div>
-                                                <span class="label bg-c-red value-badges">15%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card bg-c-green total-card">
-                                            <div class="card-block">
-                                                <div class="text-left">
-                                                    <h4>$5782</h4>
-                                                    <p class="m-0">Income Status</p>
-                                                </div>
-                                                <span class="label bg-c-green value-badges">20%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card text-center order-visitor-card">
-                                            <div class="card-block">
-                                                <h6 class="m-b-0">Unique Visitors</h6>
-                                                <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-down m-r-15 text-c-red"></i>652</h4>
-                                                <p class="m-b-0">36% From Last 6 Months</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card text-center order-visitor-card">
-                                            <div class="card-block">
-                                                <h6 class="m-b-0">Monthly Earnings</h6>
-                                                <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-up m-r-15 text-c-green"></i>5963</h4>
-                                                <p class="m-b-0">36% From Last 6 Months</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- sale card end -->
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!-- Page-body end -->
@@ -267,3 +214,66 @@
         window.location.href = "{{route('device.index')}}";
     </script>
 @endif
+
+
+@section('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+crossorigin=""/>
+@endsection
+@push('scripts')
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+crossorigin=""></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+    var map;
+    map = L.map('map');
+    map.setView([0.3476, 32.5825], 13);
+
+    //Map view continues
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    //Google street markers
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+    googleStreets.addTo(map);
+
+    // Retrieve the updated coordinates from the DB every 5 second
+    setInterval(function() {
+        $.getJSON('/marker', function(data) {
+            var coordinates = data.currentCoordinate;
+            coordinates.forEach((item) => {
+                console.log(item.id, item.device_id, item.latitude);
+                if(coordinates.length > 0){
+                    var marker = L.marker([0, 0]).addTo(map);
+                    marker.setLatLng([item.latitude, item.longitude]);
+                }
+                marker.on('click', mapClick);
+                var pop = L.popup();
+
+                function mapClick(e) {
+                    // Use a reverse geocoding service to get the name of the place
+                    var latlng = e.latlng;
+                    var geocoder = L.Control.Geocoder.nominatim();
+                    geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function(results) {
+                        if (results.length > 0) {
+                            // Get the name of the place
+                            var name = results[0].name;
+                        }
+                    pop
+                        .setLatLng(e.latlng)
+                        .setContent("The current location of " +coordinates[0].coordinates.name+ " is " + e.latlng.toString()+ " the place is called "+name)
+                        .openOn(map);
+                    });
+                }
+            });
+        });
+    }, 5000)
+
+</script>    
+@endpush('scripts')

@@ -462,10 +462,6 @@ crossorigin=""></script>
         });
         location.reload();
     }
-
-    
-        
-
 </script>
 
 @endpush
