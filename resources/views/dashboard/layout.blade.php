@@ -188,7 +188,7 @@
                                         <div class="form-group form-primary">
                                             <input type="text" name="footer-email" class="form-control">
                                             <span class="form-bar"></span>
-                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Child</label>
+                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Device</label>
                                         </div>
                                     </form>
                                 </div>
@@ -288,31 +288,6 @@
                             </div>
                         </nav>
                     <div class="pcoded-content">
-                        <!-- Page-header start -->
-                        <div class="page-header">
-                            <div class="page-block">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="page-header-title">
-                                            <h5 class="m-b-10">Dashboard</h5>
-                                            <a  href="{{ url()->previous() }}">
-                                                <i class="fa fa-arrow-circle-o-left text-white"></i>
-                                                <span class="text-white">Back</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <ul class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('dashboard') }}"> <i class="fa fa-home"></i> </a>
-                                            </li>
-                                            <li class="breadcrumb-item"><a href="{{ url()->full() }}">{{ Route::current()->getName() }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <!-- Page-header end -->
                         @yield('content')
                     </div>
