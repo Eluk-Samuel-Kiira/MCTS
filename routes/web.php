@@ -83,7 +83,9 @@ Route::middleware([
     Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
     Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
     Route::post('/send-sms', [MapsController::class, 'sendSMS'])->name('send.sms');
-    Route::get('/send-sms/twilio', [MapsController::class, 'twilioSMS'])->name('send.twilio');
+    Route::post('/devices/location', [MapsController::class, 'updateDeviceCoordinates'])->name('device.location');
+    //test route
+    //Route::get('/dev/location', [MapsController::class, 'updateDeviceCoordinates'])->name('dev.location');
 
     Route::get('/marker', [DeviceController::class, 'marker'])->name('current.marker');
     Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence']);
