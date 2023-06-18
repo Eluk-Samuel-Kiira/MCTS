@@ -11,8 +11,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{asset('landings/assets/img/favicon.png')}}" rel="icon">
-  <link href="{{asset('landings/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link href="{{asset('landings/assets/img/mctslogo.png')}}" rel="icon">
+  <link href="{{asset('landings/assets/img/favicon.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -49,6 +49,7 @@
             <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
             <li><a class="nav-link scrollto" href="#team">Team</a></li>
             <li><a class="nav-link scrollto" href="#order">Order</a></li>
+            <li><a class="nav-link scrollto" href="https://bse23-10-blog.owekisa.org/">Blog</a></li>
             <li><a class="nav-link scrollto" href="{{route('login')}}">Login</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
