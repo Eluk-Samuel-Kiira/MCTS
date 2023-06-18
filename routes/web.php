@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Jobs\RunBladeFileJob;
 use App\Models\Device;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,9 +83,7 @@ Route::middleware([
     Route::post('/geojson', [MapsController::class, 'storeGeofence'])->name('geojson.store');
     Route::post('/device/geofence', [MapsController::class, 'sendNotification'])->name('geofence.alert');
     Route::post('/send-sms', [MapsController::class, 'sendSMS'])->name('send.sms');
-    Route::post('/devices/location', [MapsController::class, 'updateDeviceCoordinates'])->name('device.location');
-    //This is a test route
-    //Route::get('/dev/loc', [MapsController::class, 'logCoordinatesToFile'])->name('dev.location');
+    Route::get('/send-sms/twilio', [MapsController::class, 'twilioSMS'])->name('send.twilio');
 
     Route::get('/marker', [DeviceController::class, 'marker'])->name('current.marker');
     Route::delete('/delete/geofence/{id}', [MapsController::class, 'destroyGeofence']);
@@ -94,11 +93,6 @@ Route::middleware([
         RunBladeFileJob::dispatch()->onQueue('default');
         //return redirect()->route('leaflet_maps.automap');
     });
-
-    //Download file logs for the movements
-    Route::get('/download/{filename}', function ($filename) {
-        return response()->download($filename);
-    })->name('download');
     
     
 });
