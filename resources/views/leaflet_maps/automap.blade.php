@@ -210,7 +210,7 @@ crossorigin=""></script>
                 });
         }
 
-        setInterval(fetchData, 3000); //After every one second
+        setInterval(fetchData, 1000); //After every one second
     });
         
 </script>
