@@ -154,12 +154,12 @@ crossorigin=""></script>
             if(filteredCoordinates.length > 0) {
                 latitude = filteredCoordinates[0].latitude;
                 longitude = filteredCoordinates[0].longitude;
-                console.log(latitude, longitude);
+                //console.log(latitude, longitude);
 
                 // Update the marker's position for the device
                 marker.setLatLng([latitude, longitude]);
                 mark.setLatLng([latitude, longitude]);
-                console.log(lat,lng)
+                //console.log(lat,lng)
 
                 //Icons for the parent's location
                 var parentIcon = marker_parent.setLatLng([lat, lng]);
@@ -294,7 +294,7 @@ crossorigin=""></script>
             url: "{{ route('geofence.alert') }}",
             type: "POST",
             data: {
-                user_id: {{auth()->user()->id}},
+                user_id: {{$device->user}},
                 device_id: filteredCoordinates[0].coordinates.id
             },
             success: function(response) {
@@ -315,7 +315,7 @@ crossorigin=""></script>
             url: "{{ route('send.sms') }}",
             type: "POST",
             data: {
-                user_id: {{auth()->user()->id}},
+                user_id: {{$device->user}},
                 device_id: filteredCoordinates[0].coordinates.id
             },
             success: function(response) {
