@@ -226,6 +226,8 @@ crossorigin=""/>
 integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
 crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<!-- Snake animation plugin -->
+<script src="{{asset('assets/js/L.Polyline.SnakeAnim.js')}}"></script>
 <script>
     var map;
     map = L.map('map');
@@ -243,15 +245,19 @@ crossorigin=""></script>
     });
     googleStreets.addTo(map);
 
+    var counter = 0;
+    var latlngs = [];
     // Retrieve the updated coordinates from the DB every 5 second
     setInterval(function() {
         $.getJSON('/marker', function(data) {
             var coordinates = data.currentCoordinate;
             coordinates.forEach((item) => {
-                console.log(item.id, item.device_id, item.latitude);
-                if(coordinates.length > 0){
+                //console.log(item.id, item.device_id, item.latitude);
+                if(coordinates.length > 0)
+                {
                     var marker = L.marker([0, 0]).addTo(map);
                     marker.setLatLng([item.latitude, item.longitude]);
+                    latlngs.push([item.latitude, item.longitude]);
                 }
                 marker.on('click', mapClick);
                 var pop = L.popup();
@@ -272,8 +278,10 @@ crossorigin=""></script>
                     });
                 }
             });
+            var roadLine = L.polyline(latlngs, {color: 'green', snakingSpeed: 200}).addTo(map);
+            roadLine.snakeIn();
         });
-    }, 5000)
+    }, 10000)
 
 </script>    
 @endpush('scripts')
